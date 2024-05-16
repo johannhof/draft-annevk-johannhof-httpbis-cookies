@@ -1,13 +1,15 @@
 ---
 title: "Cookies: HTTP State Management Mechanism"
 abbrev: "Cookies"
-docname: draft-annevk-johannhof-httpbis-cookies
+docname: draft-annevk-johannhof-httpbis-cookies-latest
 date: {DATE}
 category: std
 obsoletes:
  - 6265
  - draft-ietf-httpbis-rfc6265bis
 
+submissiontype: IETF
+ipr: pre5378Trust200902
 area: Applications and Real-Time
 workgroup: HTTP
 pi: [toc, tocindent, sortrefs, symrefs, strict, compact, comments, inline]
