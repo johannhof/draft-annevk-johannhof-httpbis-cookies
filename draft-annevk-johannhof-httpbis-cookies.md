@@ -19,7 +19,7 @@ smart_quotes: no
 venue:
 #  group: HTTP
 #  type: Working Group
-  home: https://httpwg.org/
+#  home: https://httpwg.org/
 #  mail: ietf-http-wg@w3.org
 #  arch: https://lists.w3.org/Archives/Public/ietf-http-wg/
   github: "johannhof/draft-annevk-johannhof-httpbis-cookies"
