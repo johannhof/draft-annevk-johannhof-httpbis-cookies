@@ -10,20 +10,20 @@ obsoletes:
 
 submissiontype: IETF
 ipr: pre5378Trust200902
-area: Applications and Real-Time
-workgroup: HTTP
+# area: Applications and Real-Time
+# workgroup: HTTP
 pi: [toc, tocindent, sortrefs, symrefs, strict, compact, comments, inline]
 stand_alone: yes #_
 smart_quotes: no
 
 venue:
-  group: HTTP
-  type: Working Group
+#  group: HTTP
+#  type: Working Group
   home: https://httpwg.org/
-  mail: ietf-http-wg@w3.org
-  arch: https://lists.w3.org/Archives/Public/ietf-http-wg/
+#  mail: ietf-http-wg@w3.org
+#  arch: https://lists.w3.org/Archives/Public/ietf-http-wg/
   github: "johannhof/draft-annevk-johannhof-httpbis-cookies"
-  latest: "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/"
+  latest: "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html"
 
 author:
 -
