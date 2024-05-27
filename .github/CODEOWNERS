@@ -1,0 +1,3 @@
+# Automatically generated CODEOWNERS
+# Regenerate with `make update-codeowners`
+draft-annevk-johannhof-httpbis-cookies.md annevk@annevk.nl johannhof@google.com
