@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-23T00:20:28.923485+00:00",
+  "timestamp": "2024-06-25T00:18:34.987848+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -49,7 +49,24 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOL8YrcM6NO1ca",
+      "title": "Broken ABNF in S5.3.1",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/2",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html#section-5.3.1",
+      "createdAt": "2024-06-24T07:37:22Z",
+      "updatedAt": "2024-06-24T07:37:22Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
