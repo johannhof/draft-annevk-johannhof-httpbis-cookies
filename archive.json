@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-11T00:19:42.689919+00:00",
+  "timestamp": "2024-07-14T00:21:55.333164+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -63,6 +63,56 @@
       "body": "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html#section-5.3.1",
       "createdAt": "2024-06-24T07:37:22Z",
       "updatedAt": "2024-06-24T07:37:22Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOL8YrcM6POztp",
+      "title": "Cookie Store API events integration",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/3",
+      "state": "OPEN",
+      "author": "annevk",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html is currently lacking in that it doesn't support events.\r\n\r\nNow we don't want the I-D to have to deal with events or callbacks. So Johann and I came up with this scheme:\r\n\r\n- Store a Cookie will no longer call the cookie removal algorithms (expiry and excess) at the end. Instead callers of Store a Cookie will be responsible for that.\r\n- We will no longer call the expiry or excess algorithms directly in the I-D, except for non-browser user agents. For browser user agents we will detail when to call them in a web platform specification as that will enable us to dispatch events at the same time. We will still make the I-D require that web platform specifications call them, just to make it clear that the requirements are roughly the same, just that the layering is allowed to be different.\r\n- Store a Cookie will return the cookie that was changed or null.\r\n- \"Expire Cookies\" (naming TBD) will return a list of removed cookies (potentially empty).\r\n- Remove Excess Cookies for a Host will return a list of removed cookies  (potentially empty).\r\n- Remove Global Excess Cookies will return a list of removed cookies  (potentially empty).\r\n- The web platform specifications calling the above algorithms will have to deduplicate the information in the returned lists (using a map most likely, see last bullet point of https://github.com/WICG/cookie-store/issues/230#issuecomment-2143035238) and will also have to distribute the changes across the impacted origins. This unfortunately requires the calling specification to be aware of how cookies are keyed as well, but so be it?\r\n\r\nThe current Cookie Store API seems to hand-wave a lot of the complexity away, but we hope to improve on that by making it all a bit more grounded. E.g., one of the things that is currently unclear is how the cookie changes are distributed across the various global environments of different origins.",
+      "createdAt": "2024-07-11T12:10:37Z",
+      "updatedAt": "2024-07-11T12:10:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOL8YrcM6PO02e",
+      "title": "Specify partitioning",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/4",
+      "state": "OPEN",
+      "author": "johannhof",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "johannhof"
+      ],
+      "labels": [],
+      "body": "This was left out of the initial spec draft, though we laid the groundwork for it.",
+      "createdAt": "2024-07-11T12:12:58Z",
+      "updatedAt": "2024-07-11T12:12:59Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOL8YrcM6PXeUD",
+      "title": "Provide integration with Clear-Site-Data",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/5",
+      "state": "OPEN",
+      "author": "annevk",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on https://w3c.github.io/webappsec-clear-site-data/#clear-cookies it looks like we need to be able to delete cookies given a registrable domain.\r\n\r\nIt's not entirely clear how Clear-Site-Data integrates with partitioning though so it is likely more subtle than that: https://github.com/w3c/webappsec-clear-site-data/issues/72.\r\n\r\nThere's also some concerns about how this works in general, seemingly without resolution: https://github.com/w3c/webappsec-clear-site-data/issues/55.",
+      "createdAt": "2024-07-12T10:50:36Z",
+      "updatedAt": "2024-07-12T10:50:36Z",
       "closedAt": null,
       "comments": []
     }
