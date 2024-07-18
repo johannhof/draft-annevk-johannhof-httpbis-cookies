@@ -787,7 +787,7 @@ Note that the various boolean flags defined as a part
 of the algorithm (i.e., found-time, found-day-of-month, found-month,
 found-year) are initially "not set".
 
-1. Using the grammar below, divide the cookie-date into date-tokens.
+1.  Using the grammar below, divide the cookie-date into date-tokens.
 
     ~~~ abnf
     cookie-date     = *delimiter date-token-list *delimiter
