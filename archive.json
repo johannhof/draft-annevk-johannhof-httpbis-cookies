@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-18T00:19:12.266958+00:00",
+  "timestamp": "2024-07-21T00:21:26.751064+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -55,16 +55,26 @@
       "id": "I_kwDOL8YrcM6NO1ca",
       "title": "Broken ABNF in S5.3.1",
       "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinthomson",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "annevk"
+      ],
       "labels": [],
       "body": "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html#section-5.3.1",
       "createdAt": "2024-06-24T07:37:22Z",
-      "updatedAt": "2024-06-24T07:37:22Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-18T11:57:50Z",
+      "closedAt": "2024-07-18T11:57:50Z",
+      "comments": [
+        {
+          "author": "annevk",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Found a single-space fix: #7. Markdown magic. \ud83c\udf89 ",
+          "createdAt": "2024-07-18T11:42:41Z",
+          "updatedAt": "2024-07-18T11:42:41Z"
+        }
+      ]
     },
     {
       "number": 3,
@@ -74,13 +84,23 @@
       "state": "OPEN",
       "author": "annevk",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "annevk"
+      ],
       "labels": [],
-      "body": "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html is currently lacking in that it doesn't support events.\r\n\r\nNow we don't want the I-D to have to deal with events or callbacks. So Johann and I came up with this scheme:\r\n\r\n- Store a Cookie will no longer call the cookie removal algorithms (expiry and excess) at the end. Instead callers of Store a Cookie will be responsible for that.\r\n- We will no longer call the expiry or excess algorithms directly in the I-D, except for non-browser user agents. For browser user agents we will detail when to call them in a web platform specification as that will enable us to dispatch events at the same time. We will still make the I-D require that web platform specifications call them, just to make it clear that the requirements are roughly the same, just that the layering is allowed to be different.\r\n- Store a Cookie will return the cookie that was changed or null.\r\n- \"Expire Cookies\" (naming TBD) will return a list of removed cookies (potentially empty).\r\n- Remove Excess Cookies for a Host will return a list of removed cookies  (potentially empty).\r\n- Remove Global Excess Cookies will return a list of removed cookies  (potentially empty).\r\n- The web platform specifications calling the above algorithms will have to deduplicate the information in the returned lists (using a map most likely, see last bullet point of https://github.com/WICG/cookie-store/issues/230#issuecomment-2143035238) and will also have to distribute the changes across the impacted origins. This unfortunately requires the calling specification to be aware of how cookies are keyed as well, but so be it?\r\n\r\nThe current Cookie Store API seems to hand-wave a lot of the complexity away, but we hope to improve on that by making it all a bit more grounded. E.g., one of the things that is currently unclear is how the cookie changes are distributed across the various global environments of different origins.",
+      "body": "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html is currently lacking in that it doesn't support events.\r\n\r\nNow we don't want the I-D to have to deal with events or callbacks. So Johann and I came up with this scheme:\r\n\r\n- Store a Cookie will no longer call the cookie removal algorithms (expiry and excess) at the end. Instead callers of Store a Cookie will be responsible for that.\r\n- We will no longer call the expiry or excess algorithms directly in the I-D, except for non-browser user agents. For browser user agents we will detail when to call them in a web platform specification as that will enable us to dispatch events at the same time. We will still make the I-D require that web platform specifications call them, just to make it clear that the requirements are roughly the same, just that the layering is allowed to be different.\r\n- Store a Cookie will return the cookie that was changed or null.\r\n- Remove Expired Cookies will return a list of removed cookies (potentially empty).\r\n- Remove Excess Cookies for a Host will return a list of removed cookies  (potentially empty).\r\n- Remove Global Excess Cookies will return a list of removed cookies  (potentially empty).\r\n- The web platform specifications calling the above algorithms will have to deduplicate the information in the returned lists (using a map most likely, see last bullet point of https://github.com/WICG/cookie-store/issues/230#issuecomment-2143035238) and will also have to distribute the changes across the impacted origins. This unfortunately requires the calling specification to be aware of how cookies are keyed as well, but so be it?\r\n\r\nThe current Cookie Store API seems to hand-wave a lot of the complexity away, but we hope to improve on that by making it all a bit more grounded. E.g., one of the things that is currently unclear is how the cookie changes are distributed across the various global environments of different origins.",
       "createdAt": "2024-07-11T12:10:37Z",
-      "updatedAt": "2024-07-11T12:10:37Z",
+      "updatedAt": "2024-07-18T08:40:38Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "annevk",
+          "authorAssociation": "COLLABORATOR",
+          "body": "One particular interesting case of this is that Store a Cookie will be followed by a call to Remove Expired Cookies and these might both return the same cookie (meaning it was stored with an expiry-time in the past). The caller will have to deduplicate this into a single removed cookie to be reported through a change event.",
+          "createdAt": "2024-07-18T08:40:37Z",
+          "updatedAt": "2024-07-18T08:40:37Z"
+        }
+      ]
     },
     {
       "number": 4,
@@ -112,7 +132,31 @@
       "labels": [],
       "body": "Based on https://w3c.github.io/webappsec-clear-site-data/#clear-cookies it looks like we need to be able to delete cookies given a registrable domain.\r\n\r\nIt's not entirely clear how Clear-Site-Data integrates with partitioning though so it is likely more subtle than that: https://github.com/w3c/webappsec-clear-site-data/issues/72.\r\n\r\nThere's also some concerns about how this works in general, seemingly without resolution: https://github.com/w3c/webappsec-clear-site-data/issues/55.",
       "createdAt": "2024-07-12T10:50:36Z",
-      "updatedAt": "2024-07-12T10:50:36Z",
+      "updatedAt": "2024-07-18T08:17:12Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "annevk",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Make sure this also works for https://github.com/privacycg/nav-tracking-mitigations. See discussion in https://github.com/privacycg/nav-tracking-mitigations/pull/78 for context.",
+          "createdAt": "2024-07-18T08:17:10Z",
+          "updatedAt": "2024-07-18T08:17:10Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOL8YrcM6P_fTJ",
+      "title": "Web Platform Tests",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/6",
+      "state": "OPEN",
+      "author": "johannhof",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to write some more WPT's to ensure we correctly specify what's happening in browsers today. Let's keep a list here. Please add a comment for any tests you'd like to see added.\r\n\r\n- [ ] Cookie Store: What happens for multiple Set-Cookie headers? Do they send individual cookie change events, or do they coalesce them into just the latest change?\r\n- [ ] TODO: Figure out SAA / 3PC blocking tests to write",
+      "createdAt": "2024-07-18T08:58:58Z",
+      "updatedAt": "2024-07-18T08:58:58Z",
       "closedAt": null,
       "comments": []
     }
@@ -156,6 +200,48 @@
           "body": "",
           "createdAt": "2024-05-24T09:58:50Z",
           "updatedAt": "2024-05-24T09:58:50Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOL8YrcM51xIV6",
+      "title": "Correct broken ABNF",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/pull/7",
+      "state": "MERGED",
+      "author": "annevk",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Apparently the removal of a space behind \"1.\" impacted the ABNF formatting. This could not be fixed by also indenting the ABNF by three instead of four spaces. This single-space fix appears to be the only way to resolve this.\r\n\r\nFixes #2.",
+      "createdAt": "2024-07-18T11:41:37Z",
+      "updatedAt": "2024-07-18T11:57:54Z",
+      "baseRepository": "johannhof/draft-annevk-johannhof-httpbis-cookies",
+      "baseRefName": "main",
+      "baseRefOid": "ed78db05c2ba68f8f815ab75dc6da1d60a065e06",
+      "headRepository": "johannhof/draft-annevk-johannhof-httpbis-cookies",
+      "headRefName": "abnf",
+      "headRefOid": "2e433d4118beb464afa8566038d72f84d152db4d",
+      "closedAt": "2024-07-18T11:57:50Z",
+      "mergedAt": "2024-07-18T11:57:50Z",
+      "mergedBy": "johannhof",
+      "mergeCommit": {
+        "oid": "95c6dcb9a0e51f785f87a64d1372a33b7c25e2ee"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOL8YrcM6CRbvV",
+          "commit": {
+            "abbreviatedOid": "2e433d4"
+          },
+          "author": "johannhof",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-07-18T11:57:40Z",
+          "updatedAt": "2024-07-18T11:57:40Z",
           "comments": []
         }
       ]
