@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-24T00:22:01.073771+00:00",
+  "timestamp": "2024-09-26T00:21:41.579189+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -157,6 +157,22 @@
       "body": "We need to write some more WPT's to ensure we correctly specify what's happening in browsers today. Let's keep a list here. Please add a comment for any tests you'd like to see added.\r\n\r\n- [ ] Cookie Store: What happens for multiple Set-Cookie headers? Do they send individual cookie change events, or do they coalesce them into just the latest change?\r\n- [ ] TODO: Figure out SAA / 3PC blocking tests to write",
       "createdAt": "2024-07-18T08:58:58Z",
       "updatedAt": "2024-07-18T08:58:58Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOL8YrcM6X76XT",
+      "title": "Cookie Lifetime Limits",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/8",
+      "state": "OPEN",
+      "author": "arichiv",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Should the section on [Cookie Lifetime Limits](https://httpwg.org/http-extensions/draft-ietf-httpbis-rfc6265bis.html#section-5.5) be included in this new proposal? I noticed it's missing from the current iteration.",
+      "createdAt": "2024-09-25T21:55:28Z",
+      "updatedAt": "2024-09-25T21:55:28Z",
       "closedAt": null,
       "comments": []
     }
