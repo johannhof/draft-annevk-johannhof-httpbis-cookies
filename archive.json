@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-26T00:21:41.579189+00:00",
+  "timestamp": "2024-09-29T00:24:44.730953+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -165,16 +165,45 @@
       "id": "I_kwDOL8YrcM6X76XT",
       "title": "Cookie Lifetime Limits",
       "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/8",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "arichiv",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Should the section on [Cookie Lifetime Limits](https://httpwg.org/http-extensions/draft-ietf-httpbis-rfc6265bis.html#section-5.5) be included in this new proposal? I noticed it's missing from the current iteration.",
       "createdAt": "2024-09-25T21:55:28Z",
-      "updatedAt": "2024-09-25T21:55:28Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-09-26T16:25:46Z",
+      "closedAt": "2024-09-26T16:25:46Z",
+      "comments": [
+        {
+          "author": "johannhof",
+          "authorAssociation": "OWNER",
+          "body": "cc @sbingler\r\n\r\n@annevk do you know if we decided to remove this for some reason? I don't recall it, but I may be missing something.",
+          "createdAt": "2024-09-26T05:35:17Z",
+          "updatedAt": "2024-09-26T05:35:17Z"
+        },
+        {
+          "author": "annevk",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is this not encoded through [Cookie Store And Limits](https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html#name-cookie-store-and-limits) and their callers?",
+          "createdAt": "2024-09-26T12:41:04Z",
+          "updatedAt": "2024-09-26T12:41:04Z"
+        },
+        {
+          "author": "johannhof",
+          "authorAssociation": "OWNER",
+          "body": "Ah, yes, it seems to be. @arichiv any concerns with that? You can see the `cookie age limit` being used in the other algorithms.",
+          "createdAt": "2024-09-26T16:15:00Z",
+          "updatedAt": "2024-09-26T16:15:00Z"
+        },
+        {
+          "author": "arichiv",
+          "authorAssociation": "NONE",
+          "body": "LGTM, I missed the new location when skimming before",
+          "createdAt": "2024-09-26T16:25:46Z",
+          "updatedAt": "2024-09-26T16:25:46Z"
+        }
+      ]
     }
   ],
   "pulls": [
