@@ -6,7 +6,7 @@ date: {DATE}
 category: std
 obsoletes:
  - 6265
- - draft-ietf-httpbis-rfc6265bis
+ # - draft-ietf-httpbis-rfc6265bis
 
 submissiontype: IETF
 ipr: pre5378Trust200902
@@ -17,11 +17,11 @@ stand_alone: yes #_
 smart_quotes: no
 
 venue:
-#  group: HTTP
-#  type: Working Group
-#  home: https://httpwg.org/
-#  mail: ietf-http-wg@w3.org
-#  arch: https://lists.w3.org/Archives/Public/ietf-http-wg/
+  group: HTTP
+  type: Working Group
+  home: https://httpwg.org/
+  mail: ietf-http-wg@w3.org
+  arch: https://lists.w3.org/Archives/Public/ietf-http-wg/
   github: "johannhof/draft-annevk-johannhof-httpbis-cookies"
   latest: "https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html"
 
