@@ -4,10 +4,9 @@
 
 Network Working Group                               A. van Kesteren, Ed.
 Internet-Draft                                                     Apple
-Obsoletes: [6265, "draft-ietf-httpbis-                   J. Hofmann, Ed.
-           rfc6265bis"] (if approved)                             Google
-Intended status: Standards Track                         5 December 2024
-Expires: 8 June 2025
+Obsoletes: [6265] (if approved)                          J. Hofmann, Ed.
+Intended status: Standards Track                                  Google
+Expires: 8 June 2025                                     5 December 2024
 
 
                 Cookies: HTTP State Management Mechanism
@@ -32,6 +31,11 @@ About This Document
    draft-annevk-johannhof-httpbis-cookies.html.  Status information for
    this document may be found at https://datatracker.ietf.org/doc/draft-
    annevk-johannhof-httpbis-cookies/.
+
+   Discussion of this document takes place on the HTTP Working Group
+   mailing list (mailto:ietf-http-wg@w3.org), which is archived at
+   https://lists.w3.org/Archives/Public/ietf-http-wg/.  Working Group
+   information can be found at https://httpwg.org/.
 
    Source for this draft and an issue tracker can be found at
    https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies.
