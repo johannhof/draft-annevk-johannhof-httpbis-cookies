@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-10T00:24:54.792099+00:00",
+  "timestamp": "2024-12-12T00:24:29.079990+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -290,6 +290,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOL8YrcM6E5wXz",
+      "title": "Update draft-annevk-johannhof-httpbis-cookies.md",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/pull/9",
+      "state": "OPEN",
+      "author": "roryhewitt",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarification changes to section 4.1.2.3 (The Domain attribute)",
+      "createdAt": "2024-12-11T19:08:57Z",
+      "updatedAt": "2024-12-11T19:08:58Z",
+      "baseRepository": "johannhof/draft-annevk-johannhof-httpbis-cookies",
+      "baseRefName": "main",
+      "baseRefOid": "c69e4deb347da3f28d62ea9055968d715276391c",
+      "headRepository": "roryhewitt/draft-annevk-johannhof-httpbis-cookies",
+      "headRefName": "patch-1",
+      "headRefOid": "4e3126f5395ba034b07de41e2004c87f0d688a26",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
