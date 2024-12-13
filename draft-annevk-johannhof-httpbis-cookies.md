@@ -501,18 +501,22 @@ user agent).
 #### The Domain Attribute {#attribute-domain}
 
 The Domain attribute specifies those hosts to which the cookie will be sent.
-For example, if the value of the Domain attribute is "site.example", the user
-agent will include the cookie in the `Cookie` header field when making HTTP requests to
-site.example, www.site.example, and www.corp.site.example. (Note that a
-leading %x2E ("."), if present, is ignored even though that character is not
-permitted.)  If the server omits the Domain attribute, the user agent
-will return the cookie only to the origin server.
+
+If the server includes the Domain attribute, the value applies to both the
+specified domain and any subdomains. For example, if the value of the Domain
+attribute is "site.example", the user agent will include the cookie in the
+`Cookie` header field when making HTTP requests to site.example, www.site.example,
+and www.corp.site.example. Note that a leading %x2E ("."), if present, is
+ignored even though that character is not permitted.
+
+If the server omits the Domain attribute, the user agent will return the cookie
+only to the origin server and not to any subdomains.
 
 WARNING: Some existing user agents treat an absent Domain attribute as if the
 Domain attribute were present and contained the current host name. For
 example, if site.example returns a `Set-Cookie` header field without a Domain
 attribute, these user agents will erroneously send the cookie to
-www.site.example as well.
+www.site.example and www.corp.site.example as well.
 
 The user agent will reject cookies unless the Domain attribute specifies a
 scope for the cookie that would include the origin server. For example, the
