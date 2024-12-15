@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-12T00:24:29.079990+00:00",
+  "timestamp": "2024-12-15T00:26:58.107581+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -296,26 +296,89 @@
       "id": "PR_kwDOL8YrcM6E5wXz",
       "title": "Update draft-annevk-johannhof-httpbis-cookies.md",
       "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/pull/9",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "roryhewitt",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Clarification changes to section 4.1.2.3 (The Domain attribute)",
       "createdAt": "2024-12-11T19:08:57Z",
-      "updatedAt": "2024-12-11T19:08:58Z",
+      "updatedAt": "2024-12-13T09:09:28Z",
       "baseRepository": "johannhof/draft-annevk-johannhof-httpbis-cookies",
       "baseRefName": "main",
       "baseRefOid": "c69e4deb347da3f28d62ea9055968d715276391c",
       "headRepository": "roryhewitt/draft-annevk-johannhof-httpbis-cookies",
       "headRefName": "patch-1",
       "headRefOid": "4e3126f5395ba034b07de41e2004c87f0d688a26",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-12-13T09:09:28Z",
+      "mergedAt": "2024-12-13T09:09:28Z",
+      "mergedBy": "annevk",
+      "mergeCommit": {
+        "oid": "c0d32e7f98428ba50f329fe9671a3a7a6e1bbed9"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOL8YrcM6U5bNm",
+          "commit": {
+            "abbreviatedOid": "4e3126f"
+          },
+          "author": "annevk",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "These sections generally need another look over, but this seems like a reasonable clarification.",
+          "createdAt": "2024-12-12T07:33:00Z",
+          "updatedAt": "2024-12-12T07:33:45Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "Is this actually accurate? Origin server seems to imply scheme and port matter, which I'm pretty sure cookies ignore. (You can make them care about scheme, but not by default.)\r\n\r\nMight be a follow-up though.",
+              "createdAt": "2024-12-12T07:33:01Z",
+              "updatedAt": "2024-12-12T07:33:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOL8YrcM6VCuRo",
+          "commit": {
+            "abbreviatedOid": "4e3126f"
+          },
+          "author": "roryhewitt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-12T18:48:20Z",
+          "updatedAt": "2024-12-12T18:48:20Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "Perhaps replace `...only to origin server` with `...only to requests from the original domain which sent the Set-Cookie header`. But maybe that's a bit wordy.\r\n\r\nFWIW, I didn't change the `origin server` text in that sentence - I just added the ` and not to any subdomains` bit.",
+              "createdAt": "2024-12-12T18:48:20Z",
+              "updatedAt": "2024-12-12T18:48:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOL8YrcM6VFQ93",
+          "commit": {
+            "abbreviatedOid": "4e3126f"
+          },
+          "author": "johannhof",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-12-13T03:37:51Z",
+          "updatedAt": "2024-12-13T03:37:52Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "Yeah, I suspect \"origin\" here doesn't mean (scheme, host, port) but rather \"where it came from\". That seems worth fixing up, but I wouldn't put it on this PR unless @roryhewitt feels motivated.",
+              "createdAt": "2024-12-13T03:37:51Z",
+              "updatedAt": "2024-12-13T03:37:52Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
