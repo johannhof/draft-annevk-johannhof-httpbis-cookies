@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-07T00:23:10.864928+00:00",
+  "timestamp": "2025-01-09T00:22:46.125264+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -204,6 +204,22 @@
           "updatedAt": "2024-09-26T16:25:46Z"
         }
       ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOL8YrcM6lVe5s",
+      "title": "Cookie expiration",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/issues/10",
+      "state": "OPEN",
+      "author": "roryhewitt",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Your new spec and the original RFC 6265 both specify that the correct way for a server to delete a cookie on the client is to send a `Set-Cookie` response header with the cookie name and an `Expires` value in the past. From your document (**Section 4.1.2 - Semantics - Non-Normative)**):\r\n\r\n\"[...] Notice that servers can delete cookies by sending the user agent a new cookie with an Expires attribute with a value in the past.\"\r\n\r\nThis mechanism is also spelled out in **Section 3.1 - Examples**.\r\n\r\nCan I suggest that the cookie deletion/removal (not sure of which term is preferred) mechanism is 'officially' specified in a 4.1.* section, rather than being relegated to a line within a paragraph in a 'non-normative' section?\r\n\r\nAlso there are plenty of instances where developers _attempt_ to delete/remove a cookie by sending a `Set-Cookie` header with a date in the past, but the date is incorrectly formatted, resulting in the cookie not being deleted. While this is normally fixed quickly, since it's pretty easy for a developer to tell whether the cookie has been deleted on the user-agent, perhaps a 'standard' date could be suggested and documented in this section, e.g. some wording along the lines of the following:\r\n\r\n    To delete a cookie, it is suggested that servers send a Set-Cookie header with the following Expires attribute:\r\n    \r\n    Expires=Sun, 06 Nov 1994 08:49:37 GMT\r\n    \r\n    Using this common date to remove client cookies can make it easier to track cookie removal functionality in your own codebase.",
+      "createdAt": "2025-01-07T22:31:02Z",
+      "updatedAt": "2025-01-07T22:31:02Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
