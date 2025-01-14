@@ -463,14 +463,47 @@ in the `Cookie` header field.
 
 If the user agent receives a new cookie with the same cookie-name,
 domain-value, and path-value as a cookie that it has already stored, the
-existing cookie is evicted and replaced with the new cookie. Notice that
-servers can delete cookies by sending the user agent a new cookie with an
-Expires attribute with a value in the past.
+existing cookie is evicted and replaced with the new cookie.
 
 Unless the cookie's attributes indicate otherwise, the cookie is returned only
 to the origin server (and not, for example, to any subdomains), and it expires
 at the end of the current session (as defined by the user agent). User agents
 ignore unrecognized cookie attributes (but not the entire cookie).
+
+
+### Cookie deletion
+
+A cookie that has previously been saved on the user agent can be deleted from
+the user-agent by the server which originally sent it. To do this, the server
+sends a `Set-Cookie` response header with the cookie name and value and either
+of the two following attributes:
+
+* An `Expires` attribute which represents a date in the past (for example
+`Sun, 06 Nov 1994 08:49:37 GMT` - this can be used as a valid reference date).
+See {{attribute-expires}} for details of the `Expires` attribute.
+* A `Max-Age` attribute with a value of `0`. See {{attribute-max-age}} for
+details of the `Max-Age` attribute.
+
+For example, to remove a cookie called `lang` which was previously sent from the
+server and saved on the user agent, the server can send either of the following
+two `Set-Cookie` headers:
+
+~~~ example
+== Server -> User Agent ==
+
+Set-Cookie: lang=en-US; Expires=Sun, 06 Nov 1994 08:49:37 GMT
+~~~
+or
+~~~ example
+== Server -> User Agent ==
+
+Set-Cookie: lang=en-US; Max-Age=0
+~~~
+The cookie value must be specified (`en-US` in the above examples), but this
+value is ignored by the user agent.
+
+If the cookie saved in the user agent has either the `Domain` or `Path` attributes,
+those must also be specified.
 
 
 #### The Expires Attribute {#attribute-expires}
