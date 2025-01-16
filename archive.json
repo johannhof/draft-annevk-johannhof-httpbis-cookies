@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-14T00:21:41.118858+00:00",
+  "timestamp": "2025-01-16T00:22:13.187908+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -217,7 +217,7 @@
       "labels": [],
       "body": "Your new spec and the original RFC 6265 both specify that the correct way for a server to delete a cookie on the client is to send a `Set-Cookie` response header with the cookie name and an `Expires` value in the past. From your document (**Section 4.1.2 - Semantics - Non-Normative)**):\r\n\r\n\"[...] Notice that servers can delete cookies by sending the user agent a new cookie with an Expires attribute with a value in the past.\"\r\n\r\nThis mechanism is also spelled out in **Section 3.1 - Examples**.\r\n\r\nCan I suggest that the cookie deletion/removal (not sure of which term is preferred) mechanism is 'officially' specified in a 4.1.* section, rather than being relegated to a line within a paragraph in a 'non-normative' section?\r\n\r\nAlso there are plenty of instances where developers _attempt_ to delete/remove a cookie by sending a `Set-Cookie` header with a date in the past, but the date is incorrectly formatted, resulting in the cookie not being deleted. While this is normally fixed quickly, since it's pretty easy for a developer to tell whether the cookie has been deleted on the user-agent, perhaps a 'standard' date could be suggested and documented in this section, e.g. some wording along the lines of the following:\r\n\r\n    To delete a cookie, it is suggested that servers send a Set-Cookie header with the following Expires attribute:\r\n    \r\n    Expires=Sun, 06 Nov 1994 08:49:37 GMT\r\n    \r\n    Using this common date to remove client cookies can make it easier to track cookie removal functionality in your own codebase.",
       "createdAt": "2025-01-07T22:31:02Z",
-      "updatedAt": "2025-01-13T20:28:32Z",
+      "updatedAt": "2025-01-14T18:33:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -247,6 +247,34 @@
           "body": "I'm more than willing to fork and add the separate section on cookie deletion and create a PR, but it's your document - I don't want to tread on your toes.",
           "createdAt": "2025-01-13T20:28:32Z",
           "updatedAt": "2025-01-13T20:28:32Z"
+        },
+        {
+          "author": "johannhof",
+          "authorAssociation": "OWNER",
+          "body": "Please feel free to submit PRs to this document! Note that it's not officially adopted by the HTTPWG yet.",
+          "createdAt": "2025-01-14T15:18:31Z",
+          "updatedAt": "2025-01-14T15:18:31Z"
+        },
+        {
+          "author": "annevk",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Do we have tests for `Expires=0` and `Max-Age=0`?",
+          "createdAt": "2025-01-14T15:44:25Z",
+          "updatedAt": "2025-01-14T15:44:39Z"
+        },
+        {
+          "author": "sbingler",
+          "authorAssociation": "NONE",
+          "body": "`Max-Age=0` is tested by [Expire later cookie with same name and max-age=0](https://wpt.fyi/results/cookies/attributes/max-age.html?label=experimental&label=master&aligned)\r\n\r\n`Expires=0` is an [invalid date](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis#name-dates) and should be ignored by the UA. I don't see a WPT for invalid `Expires` values but Chrome tests its implementation.",
+          "createdAt": "2025-01-14T16:26:11Z",
+          "updatedAt": "2025-01-14T16:26:11Z"
+        },
+        {
+          "author": "roryhewitt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@sbingler clearly `Expires=0` is invalid, but I was under the impression that some UAs treated it as an expiration request and deleted the cookie rather than discarding the header. Similar to how some UAs/servers allow the use of `Referrer` rather than `Referer` - it's invalid, but it's clear what the user is trying to do.\r\n\r\nMind you, last time I checked was probably with IE6, so...",
+          "createdAt": "2025-01-14T18:33:11Z",
+          "updatedAt": "2025-01-14T18:33:11Z"
         }
       ]
     }
@@ -424,6 +452,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOL8YrcM6Hwc_y",
+      "title": "Added cookie deletion section.",
+      "url": "https://github.com/johannhof/draft-annevk-johannhof-httpbis-cookies/pull/11",
+      "state": "OPEN",
+      "author": "roryhewitt",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-14T19:17:59Z",
+      "updatedAt": "2025-01-14T19:18:00Z",
+      "baseRepository": "johannhof/draft-annevk-johannhof-httpbis-cookies",
+      "baseRefName": "main",
+      "baseRefOid": "c0d32e7f98428ba50f329fe9671a3a7a6e1bbed9",
+      "headRepository": "roryhewitt/draft-annevk-johannhof-httpbis-cookies",
+      "headRefName": "main",
+      "headRefOid": "b2413f80642ba746bffeb66951a1a8fa8c053ccd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
