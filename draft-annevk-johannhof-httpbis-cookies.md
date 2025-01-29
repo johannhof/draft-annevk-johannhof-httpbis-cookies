@@ -62,8 +62,8 @@ normative:
       name: Anne van Kesteren
       organization: Apple
     -
-      ins: P. Jägenstedt
-      name: Philip Jägenstedt
+      ins: P. JÃ¤genstedt
+      name: Philip JÃ¤genstedt
       organization: Google
     -
       ins: D. Denicola
@@ -736,7 +736,7 @@ To facilitate the algorithms that follow, a number of pre-requisite concepts nee
 
 ### Cookie Store And Limits
 
-A user agent has an associated **cookie store**, which is a list of cookies. It is initially « ».
+A user agent has an associated **cookie store**, which is a list of cookies. It is initially Â« Â».
 
 A user agent has an associated **total cookies-per-host limit**, which is an integer. It SHOULD be 50 or more.
 
