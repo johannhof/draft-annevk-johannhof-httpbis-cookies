@@ -62,8 +62,8 @@ normative:
       name: Anne van Kesteren
       organization: Apple
     -
-      ins: P. JÃ¤genstedt
-      name: Philip JÃ¤genstedt
+      ins: P. Jägenstedt
+      name: Philip Jägenstedt
       organization: Google
     -
       ins: D. Denicola
@@ -484,26 +484,38 @@ See {{attribute-expires}} for details of the `Expires` attribute.
 * A `Max-Age` attribute with a value of `0`. See {{attribute-max-age}} for
 details of the `Max-Age` attribute.
 
-For example, to remove a cookie called `lang` which was previously sent from the
-server and saved on the user agent, the server can send either of the following
-two `Set-Cookie` headers:
+If the cookie saved in the user agent has either the `Domain` or `Path` attributes,
+those must also be specified when deleting it.
+
+To conform with the `Set-Cookie` header specifications, the cookie value must
+be specified when deleting the cookie, but this value is ignored by the user agent.
+
+#### Example
+
+A server initially sends the following `Set-Cookie` header to add the `lang`
+cookie with a value of `en-US` to a user-agent, where it is stored:
 
 ~~~ example
 == Server -> User Agent ==
 
-Set-Cookie: lang=en-US; Expires=Sun, 06 Nov 1994 08:49:37 GMT
+Set-Cookie: lang=en-US; Path=/;
+~~~
+
+To subsequently remove the `lang` cookie, the server can send either of the
+following two `Set-Cookie` headers - note that the original value of the cookie
+can be specified or a dummy value can be used:
+
+~~~ example
+== Server -> User Agent ==
+
+Set-Cookie: lang=en-US; Path=/; Expires=Sun, 06 Nov 1994 08:49:37 GMT
 ~~~
 or
 ~~~ example
 == Server -> User Agent ==
 
-Set-Cookie: lang=en-US; Max-Age=0
+Set-Cookie: lang=dummy; Max-Age=0; Path=/
 ~~~
-The cookie value must be specified (`en-US` in the above examples), but this
-value is ignored by the user agent.
-
-If the cookie saved in the user agent has either the `Domain` or `Path` attributes,
-those must also be specified.
 
 
 #### The Expires Attribute {#attribute-expires}
@@ -579,17 +591,17 @@ a given host, the Path attribute cannot be relied upon for security (see
 #### The Secure Attribute {#attribute-secure}
 
 The Secure attribute limits the scope of the cookie to "secure" channels
-(where "secure" is outside the scope of this document). for example, when a
-cookie has the Secure attribute, the user agent will include the cookie in an
-HTTP request only if the request is transmitted over a secure channel (typically
-HTTP over Transport Layer Security (TLS) {{RFC2818}}).
+(where "secure" is outside the scope of this document). E.g., when a cookie has the Secure
+attribute, the user agent will include the cookie in an HTTP request only if
+the request is transmitted over a secure channel (typically HTTP over Transport
+Layer Security (TLS) {{RFC2818}}).
 
 
 #### The HttpOnly Attribute {#attribute-httponly}
 
 The HttpOnly attribute limits the scope of the cookie to HTTP requests. In
 particular, the attribute instructs the user agent to omit the cookie when
-providing access to cookies via non-HTTP APIs such as client-side JavaScript.
+providing access to cookies via non-HTTP APIs.
 
 
 #### The SameSite Attribute {#attribute-samesite}
@@ -724,7 +736,7 @@ To facilitate the algorithms that follow, a number of pre-requisite concepts nee
 
 ### Cookie Store And Limits
 
-A user agent has an associated **cookie store**, which is a list of cookies. It is initially Â« Â».
+A user agent has an associated **cookie store**, which is a list of cookies. It is initially « ».
 
 A user agent has an associated **total cookies-per-host limit**, which is an integer. It SHOULD be 50 or more.
 
