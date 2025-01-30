@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-28T00:22:24.165204+00:00",
+  "timestamp": "2025-01-30T00:21:45.986978+00:00",
   "repo": "johannhof/draft-annevk-johannhof-httpbis-cookies",
   "labels": [
     {
@@ -465,19 +465,133 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-01-14T19:17:59Z",
-      "updatedAt": "2025-01-14T19:18:00Z",
+      "updatedAt": "2025-01-29T18:14:36Z",
       "baseRepository": "johannhof/draft-annevk-johannhof-httpbis-cookies",
       "baseRefName": "main",
       "baseRefOid": "c0d32e7f98428ba50f329fe9671a3a7a6e1bbed9",
       "headRepository": "roryhewitt/draft-annevk-johannhof-httpbis-cookies",
       "headRefName": "main",
-      "headRefOid": "b2413f80642ba746bffeb66951a1a8fa8c053ccd",
+      "headRefOid": "8422915a59c472a73ea075b1fd095dcd706e9de4",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "roryhewitt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Updated Cookie Deletion section",
+          "createdAt": "2025-01-29T18:06:55Z",
+          "updatedAt": "2025-01-29T18:06:55Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOL8YrcM6Zv-gk",
+          "commit": {
+            "abbreviatedOid": "b2413f8"
+          },
+          "author": "johannhof",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "Sorry for the delay! This seems good to me as guidance for servers, though we should make sure that this behavior is also normatively defined in the client section, though that might be something to work out as part of figuring out deletion and events which @dcthetall is looking into right now.\r\n\r\nWould like to get a sign-off from @annevk on this as well.",
+          "createdAt": "2025-01-28T21:51:11Z",
+          "updatedAt": "2025-01-28T21:56:22Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Can you indent this to align with the rest of the doc?",
+              "createdAt": "2025-01-28T21:51:11Z",
+              "updatedAt": "2025-01-28T21:56:22Z"
+            },
+            {
+              "originalPosition": 64,
+              "body": "This change seems unrelated?",
+              "createdAt": "2025-01-28T21:52:53Z",
+              "updatedAt": "2025-01-28T21:56:22Z"
+            },
+            {
+              "originalPosition": 72,
+              "body": "We [define](https://johannhof.github.io/draft-annevk-johannhof-httpbis-cookies/draft-annevk-johannhof-httpbis-cookies.html#section-2.1) \"non-HTTP APIs\" so this seems unneeded",
+              "createdAt": "2025-01-28T21:53:53Z",
+              "updatedAt": "2025-01-28T21:56:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOL8YrcM6Z48bF",
+          "commit": {
+            "abbreviatedOid": "b2413f8"
+          },
+          "author": "roryhewitt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-29T18:07:32Z",
+          "updatedAt": "2025-01-29T18:07:32Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "Huh - an accidental change. My bad - the cookie deletion section is the only important bit.",
+              "createdAt": "2025-01-29T18:07:32Z",
+              "updatedAt": "2025-01-29T18:07:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOL8YrcM6Z48fI",
+          "commit": {
+            "abbreviatedOid": "b2413f8"
+          },
+          "author": "roryhewitt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-29T18:07:39Z",
+          "updatedAt": "2025-01-29T18:07:39Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "Huh - an accidental change. My bad - the cookie deletion section is the only important bit.",
+              "createdAt": "2025-01-29T18:07:39Z",
+              "updatedAt": "2025-01-29T18:07:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOL8YrcM6Z4-oj",
+          "commit": {
+            "abbreviatedOid": "8422915"
+          },
+          "author": "roryhewitt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Updated to use UTF-8 rather than PC, so special characters are correct.",
+          "createdAt": "2025-01-29T18:12:12Z",
+          "updatedAt": "2025-01-29T18:12:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOL8YrcM6Z4_yY",
+          "commit": {
+            "abbreviatedOid": "b2413f8"
+          },
+          "author": "roryhewitt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-29T18:14:36Z",
+          "updatedAt": "2025-01-29T18:14:36Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "Updated section, but it's not showing (to me) as indented differently to the rest of the document...",
+              "createdAt": "2025-01-29T18:14:36Z",
+              "updatedAt": "2025-01-29T18:14:36Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
