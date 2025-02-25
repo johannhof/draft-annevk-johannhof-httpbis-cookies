@@ -773,6 +773,7 @@ To **Remove Excess Cookies for a Host** given a host _host_:
         1. Append the corresponding cookie to _excessHostCookies_.
 
     1. Otherwise:
+
         1. Remove the first item of _secureCookies_.
 
         1. Delete the corresponding cookie from the user agent's cookie store.
