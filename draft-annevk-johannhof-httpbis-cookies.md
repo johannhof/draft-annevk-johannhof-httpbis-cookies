@@ -752,11 +752,13 @@ agent MUST remove from the cookie store all cookies whose expiry-time is null.
 
 To **Remove Excess Cookies for a Host** given a host _host_:
 
-1. Let _insecureCookies_ be all cookies in the user agent's cookie store whose host is host-equal to _host_ and whose secure is false.
+1. Let _insecureCookies_ be a list of references to all cookies in the user agent's cookie store whose host is host-equal
+   to _host_ and whose secure is false.
 
 1. Sort _insecureCookies_ by earliest last-access-time first.
 
-1. Let _secureCookies_ be all cookies in the user agent's cookie store whose host is host-equal to _host_ and whose secure is true.
+1. Let _secureCookies_ be a list of references to all cookies in the user agent's cookie store whose host is host-equal
+   to _host_ and whose secure is true.
 
 1. Sort _secureCookies_ by earliest last-access-time first.
 
@@ -766,19 +768,23 @@ To **Remove Excess Cookies for a Host** given a host _host_:
 
     1. If _insecureCookies_ is not empty:
         
-        1. Remove the first item of _insecureCookies_,
-    
-        1. Delete the corresponding cookie from the user agent's cookie store
-  
-        1. Append the corresponding cookie to _excessHostCookies_.
+        1. Let _cookie_ be the first item of _insecureCookies_.
+
+        1. Remove _cookie_ from _insecureCookies_.
+
+        1. Remove _cookie_ from the user agent's cookie store.
+
+        1. Append _cookie_ to _excessHostCookies_.
 
     1. Otherwise:
 
-        1. Remove the first item of _secureCookies_.
+        1. Let _cookie_ be the first item of _secureCookies_.
 
-        1. Delete the corresponding cookie from the user agent's cookie store.
+        1. Remove _cookie_ from _secureCookies_.
 
-        1. Append the corresponding cookie to _excessHostCookies_.
+        1. Remove _cookie_ from the user agent's cookie store.
+
+        1. Append _cookie_ to _secureCookies_.
 
 1. Return _excessHostCookies_.
 
@@ -792,9 +798,13 @@ To **Remove Global Excess Cookies**:
 
 1. While _allCookies_'s size is greater than the user agent's total cookies limit:
 
-    1. Remove the first item of _allCookies_ and delete the corresponding cookie from the user agent's cookie store.
+    1. Let _cookie_ be the first item of _allCookies_.
 
-    1. Append the corresponding cookie to _excessGlobalCookies_.
+    1. Remove _cookie_ from _allCookies_.
+
+    1. Remove _cookie_ from the user agent's cookie store.
+
+    1. Append _cookie_ to _excessGlobalCookies_.
 
 1. Return _excessGlobalCookies_.
 
@@ -949,10 +959,8 @@ URL path _path_, boolean _httpOnlyAllowed_, boolean _allowNonHostOnlyCookieForPu
 
 1. If _cookie_ is failure, then return.
 
-1. Let _cookie_ be the result of Store a Cookie given _cookie_, _isSecure_, _host_, _path_, _httpOnlyAllowed_,
+1. Return the result of Store a Cookie given _cookie_, _isSecure_, _host_, _path_, _httpOnlyAllowed_,
    _allowNonHostOnlyCookieForPublicSuffix_, and _sameSiteStrictOrLaxAllowed_.
-
-1. Return _cookie_.
 
 
 ### Parse a Cookie {#parse-a-cookie}
@@ -1208,6 +1216,9 @@ boolean _httpOnlyAllowed_, boolean _allowNonHostOnlyCookieForPublicSuffix_, and 
     1. If _httpOnlyAllowed_ is false and _oldCookie_'s http-only is true,
        then return null.
 
+    1. If _cookie_'s secure flag is equal to _oldCookie_'s secure flag, _cookie_'s same-site is equal to _oldCookie_'s
+       same-site, and _cookie_'s expiry-time is equal to _oldCookie_'s expiry-time, then return null.
+
     1. Set _cookie_'s creation-time to _oldCookie_'s creation-time.
 
     1. Remove _oldCookie_ from the user agent's cookie store.
@@ -1221,13 +1232,13 @@ boolean _httpOnlyAllowed_, boolean _allowNonHostOnlyCookieForPublicSuffix_, and 
 
 ### Garbage Collect Cookies
 
-To **Garbage Collect Cookies** given a newly inserted cookie, _cookie_:
+To **Garbage Collect Cookies** given a host _host_:
 
 1. Let _expiredCookies_ be a list containing all expired cookies in the user agent's cookie store.
 
-1. For each _expiredCookie_ in _expiredCookies_, remove _expiredCookie_ from the user agent's cookie store.
+1. For each _cookie_ in _expiredCookies_, remove _cookie_ from the user agent's cookie store.
 
-1. Let _excessHostCookies_ be the result of running Remove Excess Cookies for Host given _cookie_'s host.
+1. Let _excessHostCookies_ be the result of running Remove Excess Cookies for Host given _host_.
 
 1. Let _excessGlobalCookies_ be the result of running Remove Global Excess Cookies.
 
@@ -1347,7 +1358,7 @@ SHOULD be processed as follows:
 
 1. If _cookie_ is null then return.
 
-1. Run Garbage Collect Cookies given _cookie_.
+1. Run Garbage Collect Cookies given _cookie_'s host.
 
 ### The Cookie Header Field {#cookie}
 
