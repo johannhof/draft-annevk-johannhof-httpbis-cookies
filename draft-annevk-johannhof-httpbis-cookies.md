@@ -784,7 +784,7 @@ To **Remove Excess Cookies for a Host** given a host _host_:
 
         1. Remove _cookie_ from the user agent's cookie store.
 
-        1. Append _cookie_ to _secureCookies_.
+        1. Append _cookie_ to _excessHostCookies_.
 
 1. Return _excessHostCookies_.
 
@@ -1234,15 +1234,19 @@ boolean _httpOnlyAllowed_, boolean _allowNonHostOnlyCookieForPublicSuffix_, and 
 
 To **Garbage Collect Cookies** given a host _host_:
 
-1. Let _expiredCookies_ be a list containing all expired cookies in the user agent's cookie store.
+1. Let _expiredCookies_ be a list of references to all expired cookies in the user agent's cookie store.
 
-1. For each _cookie_ in _expiredCookies_, remove _cookie_ from the user agent's cookie store.
+1. For each _cookie_ of _expiredCookies_, remove _cookie_ from the user agent's cookie store.
 
 1. Let _excessHostCookies_ be the result of running Remove Excess Cookies for Host given _host_.
 
 1. Let _excessGlobalCookies_ be the result of running Remove Global Excess Cookies.
 
-1. Let _removedCookies_ be the concatenation of _expiredCookies_, _excessHostCookies_, and _excessGlobalCookies_.
+1. Let _removedCookies_ be an empty list.
+
+1. For each _cookieList_ of « _expiredCookies_, _excessHostCookies_, _excessGlobalCookies_ », do the following:
+
+    1.  Extend _removedCookies_ with _cookieList_.
 
 1. Return _removedCookies_
 
