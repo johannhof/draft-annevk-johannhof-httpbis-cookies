@@ -1236,7 +1236,9 @@ To **Garbage Collect Cookies** given a host _host_:
 
 1. Let _expiredCookies_ be a list of references to all expired cookies in the user agent's cookie store.
 
-1. For each _cookie_ of _expiredCookies_, remove _cookie_ from the user agent's cookie store.
+1. For each _cookie_ of _expiredCookies_:
+
+    1.  Remove _cookie_ from the user agent's cookie store.
 
 1. Let _excessHostCookies_ be the result of running Remove Excess Cookies for Host given _host_.
 
