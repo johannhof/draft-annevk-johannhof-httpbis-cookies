@@ -767,7 +767,7 @@ To **Remove Excess Cookies for a Host** given a host _host_:
 1. While _insecureCookies_'s size + _secureCookies_'s size is greater than the user agent's total cookies-per-host limit:
 
     1. If _insecureCookies_ is not empty:
-        
+
         1. Let _cookie_ be the first item of _insecureCookies_.
 
         1. Remove _cookie_ from _insecureCookies_.
