@@ -95,6 +95,7 @@ informative:
   RFC4648:
   RFC6265:
   RFC7034:
+  RFC8446:
   RFC9110:
   RFC9113:
   RFC9114:
@@ -571,7 +572,7 @@ The Secure attribute limits the scope of the cookie to "secure" channels
 (where "secure" is outside the scope of this document). E.g., when a cookie has the Secure
 attribute, the user agent will include the cookie in an HTTP request only if
 the request is transmitted over a secure channel (typically HTTP over Transport
-Layer Security (TLS) {{RFC9110}}).
+Layer Security (TLS) {{RFC8446}} {{RFC9110}}).
 
 
 #### The HttpOnly Attribute {#attribute-httponly}
@@ -1575,7 +1576,7 @@ principles can lead to more robust security.
 
 ## Clear Text
 
-Unless sent over a secure channel (such as TLS), the information in the `Cookie`
+Unless sent over a secure channel (such as TLS {{RFC8446}}), the information in the `Cookie`
 and `Set-Cookie` header fields is transmitted in the clear.
 
 1.  All sensitive information conveyed in these header fields is exposed to an
