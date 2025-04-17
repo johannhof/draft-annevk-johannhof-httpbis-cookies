@@ -91,7 +91,6 @@ normative:
       organization: Apple
 
 informative:
-  RFC2818:
   RFC6265:
   RFC4648:
   RFC5895:
@@ -399,14 +398,14 @@ cookie-octet      = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
                       ; US-ASCII characters excluding CTLs,
                       ; whitespace, DQUOTE, comma, semicolon,
                       ; and backslash
-token             = <token, defined in [RFC9110], Section 5.6.2>
+token             = <token, defined in [HTTP], Section 5.6.2>
 
 cookie-av         = expires-av / max-age-av / domain-av /
                     path-av / secure-av / httponly-av /
                     samesite-av / extension-av
 expires-av        = "Expires" BWS "=" BWS sane-cookie-date
 sane-cookie-date  =
-    <IMF-fixdate, defined in [RFC9110], Section 5.6.7>
+    <IMF-fixdate, defined in [HTTP], Section 5.6.7>
 max-age-av        = "Max-Age" BWS "=" BWS non-zero-digit *DIGIT
 non-zero-digit    = %x31-39
                       ; digits 1 through 9
@@ -573,7 +572,7 @@ The Secure attribute limits the scope of the cookie to "secure" channels
 (where "secure" is outside the scope of this document). E.g., when a cookie has the Secure
 attribute, the user agent will include the cookie in an HTTP request only if
 the request is transmitted over a secure channel (typically HTTP over Transport
-Layer Security (TLS) {{RFC2818}}).
+Layer Security (TLS) {{RFC9110}}).
 
 
 #### The HttpOnly Attribute {#attribute-httponly}
