@@ -93,7 +93,6 @@ normative:
 informative:
   RFC6265:
   RFC4648:
-  RFC5895:
   RFC6265:
   RFC7034:
   RFC9110:
