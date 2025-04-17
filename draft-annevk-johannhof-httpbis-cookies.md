@@ -96,6 +96,7 @@ informative:
   RFC6265:
   RFC7034:
   RFC8446:
+    display: TLS13
   RFC9110:
   RFC9113:
   RFC9114:
