@@ -94,7 +94,6 @@ informative:
   RFC2818:
   RFC6265:
   RFC4648:
-  RFC3864:
   RFC5895:
   RFC6265:
   RFC7034:
@@ -114,6 +113,9 @@ informative:
       DOI: 10.1145/1455770.1455782
       ISBN: 978-1-59593-810-7
       ACM: "CCS '08: Proceedings of the 15th ACM conference on Computer and communications security (pages 75-88)"
+  HttpFieldNameRegistry:
+     title: "Hypertext Transfer Protocol (HTTP) Field Name Registry"
+     target: https://www.iana.org/assignments/http-fields/
 
 --- abstract
 
@@ -1674,7 +1676,7 @@ the risk more fully.
 
 ## Cookie {#iana-cookie}
 
-The permanent message header field registry (see {{RFC3864}}) needs to be
+The HTTP Field Name Registry (see {{HttpFieldNameRegistry}}) needs to be
 updated with the following registration:
 
 Header field name:
@@ -1694,7 +1696,7 @@ Specification document:
 
 ## Set-Cookie {#iana-set-cookie}
 
-The permanent message header field registry (see {{RFC3864}}) needs to be
+The HTTP Field Name Registry (see {{HttpFieldNameRegistry}}) needs to be
 updated with the following registration:
 
 Header field name:
