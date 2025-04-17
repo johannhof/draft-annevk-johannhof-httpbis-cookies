@@ -701,21 +701,22 @@ Table of Contents
 
    While Section 5.4 of [RFC9110] does not define a length limit for
    header fields it is likely that the web server's implementation does
-   impose a limit; many popular implementations have default limits of
-   8K.  Servers SHOULD avoid setting a large number of large cookies
-   such that the final cookie-string would exceed their header field
-   limit.  Not doing so could result in requests to the server failing.
+   impose a limit; many popular implementations have default limits of 8
+   kibibytes.  Servers SHOULD avoid setting a large number of large
+   cookies such that the final cookie-string would exceed their header
+   field limit.  Not doing so could result in requests to the server
+   failing.
 
-   Servers MUST be tolerant of multiple cookie headers.  For example, an
+   Servers MUST be tolerant of multiple Cookie headers.  For example, an
    HTTP/2 [RFC9113] or HTTP/3 [HTTP] client or intermediary might split
-   a cookie header to improve compression.  Servers are free to
+   a Cookie header to improve compression.  Servers are free to
    determine what form this tolerance takes.  For example, the server
-   could process each cookie header individually or the server could
-   concatenate all the cookie headers into one and then process that
+   could process each Cookie header individually or the server could
+   concatenate all the Cookie headers into one and then process that
    final, single, header.  The server should be mindful of any header
    field limits when deciding which approach to take.
 
-   Note: Since intermediaries can modify cookie headers they should also
+   Note: Since intermediaries can modify Cookie headers they should also
    be mindful of common server header field limits in order to avoid
    sending servers headers that they cannot process.  For example,
    concatenating multiple cookie headers into a single header might
@@ -1506,7 +1507,7 @@ Table of Contents
    Cookie header field be sent in requests.  This is no longer a
    requirement.  While this specification requires that a single cookie-
    string be produced, some user agents may split that string across
-   multiple cookie header fields.  For examples, see Section 8.2.3 of
+   multiple Cookie header fields.  For examples, see Section 8.2.3 of
    [RFC9113] and Section 4.2.1 of [HTTP].
 
 5.6.  Requirements Specific to Browser User Agents
