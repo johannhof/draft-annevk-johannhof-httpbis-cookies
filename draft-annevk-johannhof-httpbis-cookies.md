@@ -277,7 +277,7 @@ The OWS (optional whitespace) and BWS (bad whitespace) rules are defined in
 Section 5.6.3 of {{RFC9110}}.
 
 
-# Which Requirements to Implement
+# Which Requirements to Implement {#implementation-advisory}
 
 The upcoming two sections, {{server-requirements}} and {{ua-requirements}}, discuss
 the set of requirements for two distinct types of implementations. This section
@@ -1696,7 +1696,7 @@ Developers are strongly encouraged to deploy the usual server-side defenses
 the risk more fully.
 
 
-# IANA Considerations
+# IANA Considerations {#iana}
 
 ## Cookie {#iana-cookie}
 
