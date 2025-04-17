@@ -376,7 +376,7 @@ origin server can include multiple `Set-Cookie` header fields in a single respon
 The presence of a `Cookie` or a `Set-Cookie` header field does not preclude HTTP
 caches from storing and reusing a response.
 
-Origin servers SHOULD NOT fold multiple `Set-Cookie` header fields into a single
+Origin servers MUST NOT fold multiple `Set-Cookie` header fields into a single
 header field. The usual mechanism for folding HTTP headers fields (i.e., as
 defined in {{Section 5.3 of RFC9110}}) might change the semantics of the `Set-Cookie` header
 field because 0x2C (,) is used by `Set-Cookie` in a way that
@@ -386,8 +386,8 @@ conflicts with such folding.
 ### Syntax {#abnf-syntax}
 
 Informally, the `Set-Cookie` response header field contains a cookie, which begins with a
-name-value-pair, followed by zero or more attribute-value pairs. User agents
-SHOULD send `Set-Cookie` header fields that conform to the following grammar:
+name-value-pair, followed by zero or more attribute-value pairs. Servers
+MUST send `Set-Cookie` header fields that conform to the following grammar:
 
 ~~~ abnf
 set-cookie        = set-cookie-string
@@ -428,7 +428,7 @@ Note that some of the grammatical terms above reference documents that use
 different grammatical notations than this document (which uses ABNF from
 {{RFC5234}}).
 
-Per the grammar above, servers SHOULD NOT produce nameless cookies (i.e., an
+Per the grammar above, servers MUST NOT produce nameless cookies (i.e., an
 empty cookie-name) as such cookies may be unpredictably serialized by user agents when
 sent back to the server.
 
@@ -455,7 +455,7 @@ NOTE: The name of an attribute-value pair is not case-sensitive. So while they
 are presented here in CamelCase, such as `HttpOnly` or `SameSite`, any case is
 accepted. E.g., `httponly`, `Httponly`, `hTTPoNLY`, etc.
 
-Servers SHOULD NOT include more than one `Set-Cookie` header field in the same
+Servers MUST NOT include more than one `Set-Cookie` header field in the same
 response with the same cookie-name. (See {{set-cookie}} for how user agents
 handle this case.)
 
