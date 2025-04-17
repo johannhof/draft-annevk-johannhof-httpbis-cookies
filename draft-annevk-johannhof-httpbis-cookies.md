@@ -97,6 +97,7 @@ informative:
   RFC5895:
   RFC6265:
   RFC7034:
+  RFC9110:
   CSRF:
     target: http://portal.acm.org/citation.cfm?id=1455770.1455782
     title: Robust Defenses for Cross-Site Request Forgery
@@ -250,7 +251,7 @@ This specification depends on Infra. {{INFRA}}
 
 Some terms used in this specification are defined in the following standards and specifications:
 
-* HTTP {{HTTPSEM}}
+* HTTP {{RFC9110}}
 * URL {{URL}}
 
 A **non-HTTP API** is a non-HTTP mechanisms used to set and retrieve
@@ -270,7 +271,7 @@ CHAR (any ASCII byte), VCHAR (any visible ASCII byte),
 and WSP (whitespace).
 
 The OWS (optional whitespace) and BWS (bad whitespace) rules are defined in
-Section 5.6.3 of {{!HTTPSEM=I-D.ietf-httpbis-semantics}}.
+Section 5.6.3 of {{RFC9110}}.
 
 
 # Which Requirements to Implement
@@ -357,7 +358,7 @@ caches from storing and reusing a response.
 
 Origin servers SHOULD NOT fold multiple `Set-Cookie` header fields into a single
 header field. The usual mechanism for folding HTTP headers fields (i.e., as
-defined in Section 5.3 of {{HTTPSEM}}) might change the semantics of the `Set-Cookie` header
+defined in Section 5.3 of {{RFC9110}}) might change the semantics of the `Set-Cookie` header
 field because 0x2C (,) is used by `Set-Cookie` in a way that
 conflicts with such folding.
 
@@ -384,7 +385,7 @@ cookie-av         = expires-av / max-age-av / domain-av /
                     samesite-av / extension-av
 expires-av        = "Expires" BWS "=" BWS sane-cookie-date
 sane-cookie-date  =
-    <IMF-fixdate, defined in [HTTPSEM], Section 5.6.7>
+    <IMF-fixdate, defined in [RFC9110], Section 5.6.7>
 max-age-av        = "Max-Age" BWS "=" BWS non-zero-digit *DIGIT
 non-zero-digit    = %x31-39
                       ; digits 1 through 9
