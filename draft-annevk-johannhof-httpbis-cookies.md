@@ -98,6 +98,7 @@ informative:
   RFC6265:
   RFC7034:
   RFC9110:
+    display: HTTP
   CSRF:
     target: http://portal.acm.org/citation.cfm?id=1455770.1455782
     title: Robust Defenses for Cross-Site Request Forgery
