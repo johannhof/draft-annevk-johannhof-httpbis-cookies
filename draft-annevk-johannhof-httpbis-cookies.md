@@ -685,20 +685,20 @@ cookie-string = cookie-pair *( ";" SP cookie-pair )
 
 While {{Section 5.4 of RFC9110}} does not define a length limit for header
 fields it is likely that the web server's implementation does impose a limit;
-many popular implementations have default limits of 8K. Servers SHOULD avoid
+many popular implementations have default limits of 8 kibibytes. Servers SHOULD avoid
 setting a large number of large cookies such that the final cookie-string
 would exceed their header field limit. Not doing so could result in requests
 to the server failing.
 
-Servers MUST be tolerant of multiple cookie headers. For example, an HTTP/2
-{{RFC9113}} or HTTP/3 {{RFC9114}} client or intermediary might split a cookie
+Servers MUST be tolerant of multiple `Cookie` headers. For example, an HTTP/2
+{{RFC9113}} or HTTP/3 {{RFC9114}} client or intermediary might split a `Cookie`
 header to improve compression. Servers are free to determine what form this
-tolerance takes. For example, the server could process each cookie header
-individually or the server could concatenate all the cookie headers into one
+tolerance takes. For example, the server could process each `Cookie` header
+individually or the server could concatenate all the `Cookie` headers into one
 and then process that final, single, header. The server should be mindful of
 any header field limits when deciding which approach to take.
 
-Note: Since intermediaries can modify cookie headers they should also be
+Note: Since intermediaries can modify `Cookie` headers they should also be
 mindful of common server header field limits in order to avoid sending servers
 headers that they cannot process. For example, concatenating multiple cookie
  headers into a single header might exceed a server's size limit.
@@ -1392,7 +1392,7 @@ user agent MUST compute its value as follows:
 Note: Previous versions of this specification required that only one Cookie
 header field be sent in requests. This is no longer a requirement. While this
 specification requires that a single cookie-string be produced, some user agents
-may split that string across multiple cookie header fields. For examples, see
+may split that string across multiple `Cookie` header fields. For examples, see
 {{Section 8.2.3 of RFC9113}} and {{Section 4.2.1 of RFC9114}}.
 
 ## Requirements Specific to Browser User Agents
@@ -1419,8 +1419,8 @@ This provides the flexibility browsers need to detail their requirements in cons
 
 Servers SHOULD use as few and as small cookies as possible to avoid reaching
 these implementation limits, minimize network bandwidth due to the
- Cookie header field being included in every request, and to avoid reaching
- server header field limits (See {{server-syntax}}).
+`Cookie` header field being included in every request, and to avoid reaching
+server header field limits (See {{server-syntax}}).
 
 Servers SHOULD gracefully degrade if the user agent fails to return one or more
 cookies in the `Cookie` header field because the user agent might evict any cookie
