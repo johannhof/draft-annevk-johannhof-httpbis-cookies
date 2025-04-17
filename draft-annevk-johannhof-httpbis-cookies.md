@@ -91,13 +91,16 @@ normative:
       organization: Apple
 
 informative:
-  RFC2818:
   RFC6265:
   RFC4648:
-  RFC3864:
-  RFC5895:
   RFC6265:
   RFC7034:
+  RFC8446:
+    display: TLS13
+  RFC9110:
+  RFC9113:
+  RFC9114:
+    display: HTTP
   CSRF:
     target: http://portal.acm.org/citation.cfm?id=1455770.1455782
     title: Robust Defenses for Cross-Site Request Forgery
@@ -114,6 +117,9 @@ informative:
       DOI: 10.1145/1455770.1455782
       ISBN: 978-1-59593-810-7
       ACM: "CCS '08: Proceedings of the 15th ACM conference on Computer and communications security (pages 75-88)"
+  HttpFieldNameRegistry:
+     title: "Hypertext Transfer Protocol (HTTP) Field Name Registry"
+     target: https://www.iana.org/assignments/http-fields/
 
 --- abstract
 
@@ -208,7 +214,24 @@ Cookie: SID=31d4d96e407aad42; lang=en-US
 ~~~
 
 Notice that the `Cookie` header field above contains two cookies, one named SID and
-one named lang. If the server wishes the user agent to persist the cookie over
+one named lang.
+
+Cookie names are case-sensitive, meaning that if a server sends the user agent
+two Set-Cookie header fields that differ only in their name's case the user
+agent will store and return both of those cookies in subsequent requests.
+
+~~~ example
+== Server -> User Agent ==
+
+Set-Cookie: SID=31d4d96e407aad42
+Set-Cookie: sid=31d4d96e407aad42
+
+== User Agent -> Server ==
+
+Cookie: SID=31d4d96e407aad42; sid=31d4d96e407aad42
+~~~
+
+If the server wishes the user agent to persist the cookie over
 multiple "sessions" (e.g., user agent restarts), the server can specify an
 expiration date in the Expires attribute. Note that the user agent might
 delete the cookie before the expiration date if the user agent's cookie store
@@ -248,7 +271,7 @@ This specification depends on Infra. {{INFRA}}
 
 Some terms used in this specification are defined in the following standards and specifications:
 
-* HTTP {{HTTPSEM}}
+* HTTP {{RFC9110}}
 * URL {{URL}}
 
 A **non-HTTP API** is a non-HTTP mechanisms used to set and retrieve
@@ -268,10 +291,10 @@ CHAR (any ASCII byte), VCHAR (any visible ASCII byte),
 and WSP (whitespace).
 
 The OWS (optional whitespace) and BWS (bad whitespace) rules are defined in
-Section 5.6.3 of {{!HTTPSEM=I-D.ietf-httpbis-semantics}}.
+{{Section 5.6.3 of RFC9110}}.
 
 
-# Which Requirements to Implement
+# Which Requirements to Implement {#implementation-advisory}
 
 The upcoming two sections, {{server-requirements}} and {{ua-requirements}}, discuss
 the set of requirements for two distinct types of implementations. This section
@@ -353,36 +376,45 @@ origin server can include multiple `Set-Cookie` header fields in a single respon
 The presence of a `Cookie` or a `Set-Cookie` header field does not preclude HTTP
 caches from storing and reusing a response.
 
-Origin servers SHOULD NOT fold multiple `Set-Cookie` header fields into a single
-header field. The usual mechanism for folding HTTP headers fields (i.e., as
-defined in Section 5.3 of {{HTTPSEM}}) might change the semantics of the `Set-Cookie` header
-field because 0x2C (,) is used by `Set-Cookie` in a way that
-conflicts with such folding.
+Origin servers and intermediaries MUST NOT combine multiple Set-Cookie header
+fields into a single header field. The usual mechanism for combining HTTP
+headers fields (i.e., as defined in {{Section 5.3 of RFC9110}}) might change
+the semantics of the Set-Cookie header field because the %x2C (",") character
+is used by Set-Cookie in a way that conflicts with such combining.
 
+For example,
+
+~~~
+Set-Cookie: a=b;path=/c,d=e
+~~~
+
+is ambiguous. It could be intended as two cookies, a=b and d=e, or a single
+cookie with a path of /c,d=e.
 
 ### Syntax {#abnf-syntax}
 
 Informally, the `Set-Cookie` response header field contains a cookie, which begins with a
-name-value-pair, followed by zero or more attribute-value pairs. User agents
-SHOULD send `Set-Cookie` header fields that conform to the following grammar:
+name-value-pair, followed by zero or more attribute-value pairs. Servers
+MUST send `Set-Cookie` header fields that conform to the following grammar:
 
 ~~~ abnf
 set-cookie        = set-cookie-string
 set-cookie-string = BWS cookie-pair *( BWS ";" OWS cookie-av )
 cookie-pair       = cookie-name BWS "=" BWS cookie-value
-cookie-name       = 1*cookie-octet
+cookie-name       = token
 cookie-value      = *cookie-octet / ( DQUOTE *cookie-octet DQUOTE )
 cookie-octet      = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
                       ; US-ASCII characters excluding CTLs,
-                      ; whitespace DQUOTE, comma, semicolon,
+                      ; whitespace, DQUOTE, comma, semicolon,
                       ; and backslash
+token             = <token, defined in [HTTP], Section 5.6.2>
 
 cookie-av         = expires-av / max-age-av / domain-av /
                     path-av / secure-av / httponly-av /
                     samesite-av / extension-av
 expires-av        = "Expires" BWS "=" BWS sane-cookie-date
 sane-cookie-date  =
-    <IMF-fixdate, defined in [HTTPSEM], Section 5.6.7>
+    <IMF-fixdate, defined in [HTTP], Section 5.6.7>
 max-age-av        = "Max-Age" BWS "=" BWS non-zero-digit *DIGIT
 non-zero-digit    = %x31-39
                       ; digits 1 through 9
@@ -404,7 +436,7 @@ Note that some of the grammatical terms above reference documents that use
 different grammatical notations than this document (which uses ABNF from
 {{RFC5234}}).
 
-Per the grammar above, servers SHOULD NOT produce nameless cookies (i.e., an
+Per the grammar above, servers MUST NOT produce nameless cookies (i.e., an
 empty cookie-name) as such cookies may be unpredictably serialized by user agents when
 sent back to the server.
 
@@ -431,7 +463,7 @@ NOTE: The name of an attribute-value pair is not case-sensitive. So while they
 are presented here in CamelCase, such as `HttpOnly` or `SameSite`, any case is
 accepted. E.g., `httponly`, `Httponly`, `hTTPoNLY`, etc.
 
-Servers SHOULD NOT include more than one `Set-Cookie` header field in the same
+Servers MUST NOT include more than one `Set-Cookie` header field in the same
 response with the same cookie-name. (See {{set-cookie}} for how user agents
 handle this case.)
 
@@ -549,7 +581,7 @@ The Secure attribute limits the scope of the cookie to "secure" channels
 (where "secure" is outside the scope of this document). E.g., when a cookie has the Secure
 attribute, the user agent will include the cookie in an HTTP request only if
 the request is transmitted over a secure channel (typically HTTP over Transport
-Layer Security (TLS) {{RFC2818}}).
+Layer Security (TLS) {{RFC8446}} {{RFC9110}}).
 
 
 #### The HttpOnly Attribute {#attribute-httponly}
@@ -639,7 +671,7 @@ Set-Cookie: __Host-SID=12345; Secure; Path=/
 
 ## Cookie {#sane-cookie}
 
-### Syntax
+### Syntax {#server-syntax}
 
 The user agent sends stored cookies to the origin server in the `Cookie` header field.
 If the server conforms to the requirements in {{sane-set-cookie}} (and the user agent
@@ -650,6 +682,26 @@ header field that conforms to the following grammar:
 cookie        = cookie-string
 cookie-string = cookie-pair *( ";" SP cookie-pair )
 ~~~
+
+While {{Section 5.4 of RFC9110}} does not define a length limit for header
+fields it is likely that the web server's implementation does impose a limit;
+many popular implementations have default limits of 8 kibibytes. Servers SHOULD avoid
+setting a large number of large cookies such that the final cookie-string
+would exceed their header field limit. Not doing so could result in requests
+to the server failing.
+
+Servers MUST be tolerant of multiple `Cookie` headers. For example, an HTTP/2
+{{RFC9113}} or HTTP/3 {{RFC9114}} client or intermediary might split a `Cookie`
+header to improve compression. Servers are free to determine what form this
+tolerance takes. For example, the server could process each `Cookie` header
+individually or the server could concatenate all the `Cookie` headers into one
+and then process that final, single, header. The server should be mindful of
+any header field limits when deciding which approach to take.
+
+Note: Since intermediaries can modify `Cookie` headers they should also be
+mindful of common server header field limits in order to avoid sending servers
+headers that they cannot process. For example, concatenating multiple cookie
+ headers into a single header might exceed a server's size limit.
 
 ### Semantics
 
@@ -1337,6 +1389,11 @@ user agent MUST compute its value as follows:
 
 1. Return the result of running Serialize Cookies given _cookies_.
 
+Note: Previous versions of this specification required that only one Cookie
+header field be sent in requests. This is no longer a requirement. While this
+specification requires that a single cookie-string be produced, some user agents
+may split that string across multiple `Cookie` header fields. For examples, see
+{{Section 8.2.3 of RFC9113}} and {{Section 4.2.1 of RFC9114}}.
 
 ## Requirements Specific to Browser User Agents
 
@@ -1361,8 +1418,9 @@ This provides the flexibility browsers need to detail their requirements in cons
 ## Limits
 
 Servers SHOULD use as few and as small cookies as possible to avoid reaching
-these implementation limits and to minimize network bandwidth due to the
-`Cookie` header field being included in every request.
+these implementation limits, minimize network bandwidth due to the
+`Cookie` header field being included in every request, and to avoid reaching
+server header field limits (See {{server-syntax}}).
 
 Servers SHOULD gracefully degrade if the user agent fails to return one or more
 cookies in the `Cookie` header field because the user agent might evict any cookie
@@ -1527,7 +1585,7 @@ principles can lead to more robust security.
 
 ## Clear Text
 
-Unless sent over a secure channel (such as TLS), the information in the `Cookie`
+Unless sent over a secure channel (such as TLS {{RFC8446}}), the information in the `Cookie`
 and `Set-Cookie` header fields is transmitted in the clear.
 
 1.  All sensitive information conveyed in these header fields is exposed to an
@@ -1670,11 +1728,11 @@ Developers are strongly encouraged to deploy the usual server-side defenses
 the risk more fully.
 
 
-# IANA Considerations
+# IANA Considerations {#iana}
 
 ## Cookie {#iana-cookie}
 
-The permanent message header field registry (see {{RFC3864}}) needs to be
+The HTTP Field Name Registry (see {{HttpFieldNameRegistry}}) needs to be
 updated with the following registration:
 
 Header field name:
@@ -1694,7 +1752,7 @@ Specification document:
 
 ## Set-Cookie {#iana-set-cookie}
 
-The permanent message header field registry (see {{RFC3864}}) needs to be
+The HTTP Field Name Registry (see {{HttpFieldNameRegistry}}) needs to be
 updated with the following registration:
 
 Header field name:
