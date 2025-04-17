@@ -16,17 +16,17 @@ infelicities that degrade their security and privacy, the  Cookie  and  Set-Cook
 header fields are widely used on the Internet. This document obsoletes RFC
 6265 and 6265bis. 
     " name="description">
-<meta content="xml2rfc 3.28.0" name="generator">
+<meta content="xml2rfc 3.28.1" name="generator">
 <meta content="draft-annevk-johannhof-httpbis-cookies-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.0
+  xml2rfc 3.28.1
     Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
+    Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.6
+    platformdirs 4.3.7
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Cookies</td>
-<td class="right">March 2025</td>
+<td class="right">April 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">van Kesteren &amp; Hofmann</td>
-<td class="center">Expires 14 September 2025</td>
+<td class="center">Expires 19 October 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc[6265]" class="eref">[6265]</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-13" class="published">13 March 2025</time>
+<time datetime="2025-04-17" class="published">17 April 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-14">14 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-10-19">19 October 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1137,7 +1137,7 @@ header fields are widely used on the Internet. This document obsoletes RFC
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1492,12 +1492,28 @@ Cookie: SID=31d4d96e407aad42; lang=en-US
 </pre><a href="#section-1.1-6" class="pilcrow">¶</a>
 </div>
 <p id="section-1.1-7">Notice that the <code>Cookie</code> header field above contains two cookies, one named SID and
-one named lang. If the server wishes the user agent to persist the cookie over
+one named lang.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<p id="section-1.1-8">Cookie names are case-sensitive, meaning that if a server sends the user agent
+two Set-Cookie header fields that differ only in their name's case the user
+agent will store and return both of those cookies in subsequent requests.<a href="#section-1.1-8" class="pilcrow">¶</a></p>
+<div class="lang-example sourcecode" id="section-1.1-9">
+<pre>
+== Server -&gt; User Agent ==
+
+Set-Cookie: SID=31d4d96e407aad42
+Set-Cookie: sid=31d4d96e407aad42
+
+== User Agent -&gt; Server ==
+
+Cookie: SID=31d4d96e407aad42; sid=31d4d96e407aad42
+</pre><a href="#section-1.1-9" class="pilcrow">¶</a>
+</div>
+<p id="section-1.1-10">If the server wishes the user agent to persist the cookie over
 multiple "sessions" (e.g., user agent restarts), the server can specify an
 expiration date in the Expires attribute. Note that the user agent might
 delete the cookie before the expiration date if the user agent's cookie store
-exceeds its quota or if the user manually deletes the server's cookie.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
-<div class="lang-example sourcecode" id="section-1.1-8">
+exceeds its quota or if the user manually deletes the server's cookie.<a href="#section-1.1-10" class="pilcrow">¶</a></p>
+<div class="lang-example sourcecode" id="section-1.1-11">
 <pre>
 == Server -&gt; User Agent ==
 
@@ -1506,13 +1522,13 @@ Set-Cookie: lang=en-US; Expires=Wed, 09 Jun 2021 10:18:14 GMT
 == User Agent -&gt; Server ==
 
 Cookie: SID=31d4d96e407aad42; lang=en-US
-</pre><a href="#section-1.1-8" class="pilcrow">¶</a>
+</pre><a href="#section-1.1-11" class="pilcrow">¶</a>
 </div>
-<p id="section-1.1-9">Finally, to remove a cookie, the server returns a <code>Set-Cookie</code> header field with an
+<p id="section-1.1-12">Finally, to remove a cookie, the server returns a <code>Set-Cookie</code> header field with an
 expiration date in the past. The server will be successful in removing the
 cookie only if the Path and the Domain attribute in the <code>Set-Cookie</code> header field
-match the values used when the cookie was created.<a href="#section-1.1-9" class="pilcrow">¶</a></p>
-<div class="lang-example sourcecode" id="section-1.1-10">
+match the values used when the cookie was created.<a href="#section-1.1-12" class="pilcrow">¶</a></p>
+<div class="lang-example sourcecode" id="section-1.1-13">
 <pre>
 == Server -&gt; User Agent ==
 
@@ -1521,7 +1537,7 @@ Set-Cookie: lang=; Expires=Sun, 06 Nov 1994 08:49:37 GMT
 == User Agent -&gt; Server ==
 
 Cookie: SID=31d4d96e407aad42
-</pre><a href="#section-1.1-10" class="pilcrow">¶</a>
+</pre><a href="#section-1.1-13" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1541,7 +1557,7 @@ Cookie: SID=31d4d96e407aad42
 <p id="section-2.1-2">Some terms used in this specification are defined in the following standards and specifications:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.1-3.1">
-            <p id="section-2.1-3.1.1">HTTP <span>[<a href="#HTTPSEM" class="cite xref">HTTPSEM</a>]</span><a href="#section-2.1-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-2.1-3.1.1">HTTP <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span><a href="#section-2.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.1-3.2">
             <p id="section-2.1-3.2.1">URL <span>[<a href="#URL" class="cite xref">URL</a>]</span><a href="#section-2.1-3.2.1" class="pilcrow">¶</a></p>
@@ -1566,12 +1582,12 @@ Appendix B.1: ALPHA (letters), CR (carriage return), CRLF (CR LF), CTLs
 CHAR (any ASCII byte), VCHAR (any visible ASCII byte),
 and WSP (whitespace).<a href="#section-2.2-2" class="pilcrow">¶</a></p>
 <p id="section-2.2-3">The OWS (optional whitespace) and BWS (bad whitespace) rules are defined in
-Section 5.6.3 of <span>[<a href="#HTTPSEM" class="cite xref">HTTPSEM</a>]</span>.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<span><a href="https://rfc-editor.org/rfc/rfc9110#section-5.6.3" class="relref">Section 5.6.3</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<div id="which-requirements-to-implement">
+<div id="implementation-advisory">
 <section id="section-3">
       <h2 id="name-which-requirements-to-imple">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-which-requirements-to-imple" class="section-name selfRef">Which Requirements to Implement</a>
@@ -1677,37 +1693,46 @@ the user agent.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 origin server can include multiple <code>Set-Cookie</code> header fields in a single response.
 The presence of a <code>Cookie</code> or a <code>Set-Cookie</code> header field does not preclude HTTP
 caches from storing and reusing a response.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.1-3">Origin servers SHOULD NOT fold multiple <code>Set-Cookie</code> header fields into a single
-header field. The usual mechanism for folding HTTP headers fields (i.e., as
-defined in Section 5.3 of <span>[<a href="#HTTPSEM" class="cite xref">HTTPSEM</a>]</span>) might change the semantics of the <code>Set-Cookie</code> header
-field because 0x2C (,) is used by <code>Set-Cookie</code> in a way that
-conflicts with such folding.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">Origin servers and intermediaries MUST NOT combine multiple Set-Cookie header
+fields into a single header field. The usual mechanism for combining HTTP
+headers fields (i.e., as defined in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-5.3" class="relref">Section 5.3</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>) might change
+the semantics of the Set-Cookie header field because the %x2C (",") character
+is used by Set-Cookie in a way that conflicts with such combining.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-4">For example,<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.1-5">
+<pre>
+Set-Cookie: a=b;path=/c,d=e
+</pre><a href="#section-4.1-5" class="pilcrow">¶</a>
+</div>
+<p id="section-4.1-6">is ambiguous. It could be intended as two cookies, a=b and d=e, or a single
+cookie with a path of /c,d=e.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
 <div id="abnf-syntax">
 <section id="section-4.1.1">
           <h4 id="name-syntax">
 <a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-syntax" class="section-name selfRef">Syntax</a>
           </h4>
 <p id="section-4.1.1-1">Informally, the <code>Set-Cookie</code> response header field contains a cookie, which begins with a
-name-value-pair, followed by zero or more attribute-value pairs. User agents
-SHOULD send <code>Set-Cookie</code> header fields that conform to the following grammar:<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
+name-value-pair, followed by zero or more attribute-value pairs. Servers
+MUST send <code>Set-Cookie</code> header fields that conform to the following grammar:<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
 <div class="lang-abnf sourcecode" id="section-4.1.1-2">
 <pre>
 set-cookie        = set-cookie-string
 set-cookie-string = BWS cookie-pair *( BWS ";" OWS cookie-av )
 cookie-pair       = cookie-name BWS "=" BWS cookie-value
-cookie-name       = 1*cookie-octet
+cookie-name       = token
 cookie-value      = *cookie-octet / ( DQUOTE *cookie-octet DQUOTE )
 cookie-octet      = %x21 / %x23-2B / %x2D-3A / %x3C-5B / %x5D-7E
                       ; US-ASCII characters excluding CTLs,
-                      ; whitespace DQUOTE, comma, semicolon,
+                      ; whitespace, DQUOTE, comma, semicolon,
                       ; and backslash
+token             = &lt;token, defined in [HTTP], Section 5.6.2&gt;
 
 cookie-av         = expires-av / max-age-av / domain-av /
                     path-av / secure-av / httponly-av /
                     samesite-av / extension-av
 expires-av        = "Expires" BWS "=" BWS sane-cookie-date
 sane-cookie-date  =
-    &lt;IMF-fixdate, defined in [HTTPSEM], Section 5.6.7&gt;
+    &lt;IMF-fixdate, defined in [HTTP], Section 5.6.7&gt;
 max-age-av        = "Max-Age" BWS "=" BWS non-zero-digit *DIGIT
 non-zero-digit    = %x31-39
                       ; digits 1 through 9
@@ -1728,7 +1753,7 @@ av-octet          = %x20-3A / %x3C-7E
 <p id="section-4.1.1-3">Note that some of the grammatical terms above reference documents that use
 different grammatical notations than this document (which uses ABNF from
 <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span>).<a href="#section-4.1.1-3" class="pilcrow">¶</a></p>
-<p id="section-4.1.1-4">Per the grammar above, servers SHOULD NOT produce nameless cookies (i.e., an
+<p id="section-4.1.1-4">Per the grammar above, servers MUST NOT produce nameless cookies (i.e., an
 empty cookie-name) as such cookies may be unpredictably serialized by user agents when
 sent back to the server.<a href="#section-4.1.1-4" class="pilcrow">¶</a></p>
 <p id="section-4.1.1-5">The semantics of the cookie-value are not defined by this document.<a href="#section-4.1.1-5" class="pilcrow">¶</a></p>
@@ -1748,7 +1773,7 @@ NOT produce two attributes with the same name in the same set-cookie-string.<a h
 <p id="section-4.1.1-10">NOTE: The name of an attribute-value pair is not case-sensitive. So while they
 are presented here in CamelCase, such as <code>HttpOnly</code> or <code>SameSite</code>, any case is
 accepted. E.g., <code>httponly</code>, <code>Httponly</code>, <code>hTTPoNLY</code>, etc.<a href="#section-4.1.1-10" class="pilcrow">¶</a></p>
-<p id="section-4.1.1-11">Servers SHOULD NOT include more than one <code>Set-Cookie</code> header field in the same
+<p id="section-4.1.1-11">Servers MUST NOT include more than one <code>Set-Cookie</code> header field in the same
 response with the same cookie-name. (See <a href="#set-cookie" class="auto internal xref">Section 5.5.1</a> for how user agents
 handle this case.)<a href="#section-4.1.1-11" class="pilcrow">¶</a></p>
 <p id="section-4.1.1-12">If a server sends multiple responses containing <code>Set-Cookie</code> header fields
@@ -1868,7 +1893,7 @@ a given host, the Path attribute cannot be relied upon for security (see
 (where "secure" is outside the scope of this document). E.g., when a cookie has the Secure
 attribute, the user agent will include the cookie in an HTTP request only if
 the request is transmitted over a secure channel (typically HTTP over Transport
-Layer Security (TLS) <span>[<a href="#RFC2818" class="cite xref">RFC2818</a>]</span>).<a href="#section-4.1.2.5-1" class="pilcrow">¶</a></p>
+Layer Security (TLS) <span>[<a href="#RFC8446" class="cite xref">TLS13</a>]</span> <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>).<a href="#section-4.1.2.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="attribute-httponly">
@@ -1976,7 +2001,7 @@ Set-Cookie: __Host-SID=12345; Secure; Path=/
         <h3 id="name-cookie">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-cookie" class="section-name selfRef">Cookie</a>
         </h3>
-<div id="syntax">
+<div id="server-syntax">
 <section id="section-4.2.1">
           <h4 id="name-syntax-2">
 <a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-syntax-2" class="section-name selfRef">Syntax</a>
@@ -1991,6 +2016,23 @@ cookie        = cookie-string
 cookie-string = cookie-pair *( ";" SP cookie-pair )
 </pre><a href="#section-4.2.1-2" class="pilcrow">¶</a>
 </div>
+<p id="section-4.2.1-3">While <span><a href="https://rfc-editor.org/rfc/rfc9110#section-5.4" class="relref">Section 5.4</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> does not define a length limit for header
+fields it is likely that the web server's implementation does impose a limit;
+many popular implementations have default limits of 8 kibibytes. Servers SHOULD avoid
+setting a large number of large cookies such that the final cookie-string
+would exceed their header field limit. Not doing so could result in requests
+to the server failing.<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-4">Servers MUST be tolerant of multiple <code>Cookie</code> headers. For example, an HTTP/2
+<span>[<a href="#RFC9113" class="cite xref">RFC9113</a>]</span> or HTTP/3 <span>[<a href="#RFC9114" class="cite xref">HTTP</a>]</span> client or intermediary might split a <code>Cookie</code>
+header to improve compression. Servers are free to determine what form this
+tolerance takes. For example, the server could process each <code>Cookie</code> header
+individually or the server could concatenate all the <code>Cookie</code> headers into one
+and then process that final, single, header. The server should be mindful of
+any header field limits when deciding which approach to take.<a href="#section-4.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-5">Note: Since intermediaries can modify <code>Cookie</code> headers they should also be
+mindful of common server header field limits in order to avoid sending servers
+headers that they cannot process. For example, concatenating multiple cookie
+ headers into a single header might exceed a server's size limit.<a href="#section-4.2.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="semantics">
@@ -2999,6 +3041,11 @@ user agent MUST compute its value as follows:<a href="#section-5.5.2-4" class="p
               <p id="section-5.5.2-5.7.1">Return the result of running Serialize Cookies given <em>cookies</em>.<a href="#section-5.5.2-5.7.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
+<p id="section-5.5.2-6">Note: Previous versions of this specification required that only one Cookie
+header field be sent in requests. This is no longer a requirement. While this
+specification requires that a single cookie-string be produced, some user agents
+may split that string across multiple <code>Cookie</code> header fields. For examples, see
+<span><a href="https://rfc-editor.org/rfc/rfc9113#section-8.2.3" class="relref">Section 8.2.3</a> of [<a href="#RFC9113" class="cite xref">RFC9113</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9114#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC9114" class="cite xref">HTTP</a>]</span>.<a href="#section-5.5.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3044,8 +3091,9 @@ manipulating the user agent's cookie store through non-HTTP APIs:<a href="#secti
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-limits" class="section-name selfRef">Limits</a>
         </h3>
 <p id="section-6.1-1">Servers SHOULD use as few and as small cookies as possible to avoid reaching
-these implementation limits and to minimize network bandwidth due to the
-<code>Cookie</code> header field being included in every request.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+these implementation limits, minimize network bandwidth due to the
+<code>Cookie</code> header field being included in every request, and to avoid reaching
+server header field limits (See <a href="#server-syntax" class="auto internal xref">Section 4.2.1</a>).<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">Servers SHOULD gracefully degrade if the user agent fails to return one or more
 cookies in the <code>Cookie</code> header field because the user agent might evict any cookie
 at any time.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
@@ -3244,7 +3292,7 @@ principles can lead to more robust security.<a href="#section-8.2-3" class="pilc
         <h3 id="name-clear-text">
 <a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-clear-text" class="section-name selfRef">Clear Text</a>
         </h3>
-<p id="section-8.3-1">Unless sent over a secure channel (such as TLS), the information in the <code>Cookie</code>
+<p id="section-8.3-1">Unless sent over a secure channel (such as TLS <span>[<a href="#RFC8446" class="cite xref">TLS13</a>]</span>), the information in the <code>Cookie</code>
 and <code>Set-Cookie</code> header fields is transmitted in the clear.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-8.3-2">
 <li id="section-8.3-2.1">
@@ -3402,7 +3450,7 @@ the risk more fully.<a href="#section-8.8-2" class="pilcrow">¶</a></p>
 </div>
 </section>
 </div>
-<div id="iana-considerations">
+<div id="iana">
 <section id="section-9">
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
@@ -3412,7 +3460,7 @@ the risk more fully.<a href="#section-8.8-2" class="pilcrow">¶</a></p>
         <h3 id="name-cookie-2">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-cookie-2" class="section-name selfRef">Cookie</a>
         </h3>
-<p id="section-9.1-1">The permanent message header field registry (see <span>[<a href="#RFC3864" class="cite xref">RFC3864</a>]</span>) needs to be
+<p id="section-9.1-1">The HTTP Field Name Registry (see <span>[<a href="#HttpFieldNameRegistry" class="cite xref">HttpFieldNameRegistry</a>]</span>) needs to be
 updated with the following registration:<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-9.1-2">
           <dt id="section-9.1-2.1">Header field name:</dt>
@@ -3448,7 +3496,7 @@ updated with the following registration:<a href="#section-9.1-1" class="pilcrow"
         <h3 id="name-set-cookie-2">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-set-cookie-2" class="section-name selfRef">Set-Cookie</a>
         </h3>
-<p id="section-9.2-1">The permanent message header field registry (see <span>[<a href="#RFC3864" class="cite xref">RFC3864</a>]</span>) needs to be
+<p id="section-9.2-1">The HTTP Field Name Registry (see <span>[<a href="#HttpFieldNameRegistry" class="cite xref">HttpFieldNameRegistry</a>]</span>) needs to be
 updated with the following registration:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-9.2-2">
           <dt id="section-9.2-2.1">Header field name:</dt>
@@ -3513,10 +3561,6 @@ updated with the following registration:<a href="#section-9.2-1" class="pilcrow"
         <dd>
 <span class="refAuthor">Hickson, I.</span>, <span class="refAuthor">Pieters, S.</span>, <span class="refAuthor">van Kesteren, A.</span>, <span class="refAuthor">Jägenstedt, P.</span>, and <span class="refAuthor">D. Denicola</span>, <span class="refTitle">"HTML"</span>, <span>n.d.</span>, <span>&lt;<a href="https://html.spec.whatwg.org/">https://html.spec.whatwg.org/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="HTTPSEM">[HTTPSEM]</dt>
-        <dd>
-<span class="refAuthor">Fielding, R. T.</span>, <span class="refAuthor">Nottingham, M.</span>, and <span class="refAuthor">J. Reschke</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-semantics-19</span>, <time datetime="2021-09-12" class="refDate">12 September 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19">https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="INFRA">[INFRA]</dt>
         <dd>
 <span class="refAuthor">van Kesteren, A.</span> and <span class="refAuthor">D. Denicola</span>, <span class="refTitle">"Infra"</span>, <span>n.d.</span>, <span>&lt;<a href="https://infra.spec.whatwg.org">https://infra.spec.whatwg.org</a>&gt;</span>. </dd>
@@ -3554,33 +3598,41 @@ updated with the following registration:<a href="#section-9.2-1" class="pilcrow"
         <dd>
 <span class="refAuthor">Barth, A.</span>, <span class="refAuthor">Jackson, C.</span>, and <span class="refAuthor">J. Mitchell</span>, <span class="refTitle">"Robust Defenses for Cross-Site Request Forgery"</span>, <span class="seriesInfo">DOI 10.1145/1455770.1455782</span>, <span class="seriesInfo">ISBN 978-1-59593-810-7</span>, <span class="seriesInfo">ACM CCS '08: Proceedings of the 15th ACM conference on Computer and communications security (pages 75-88)</span>, <time datetime="2008-10" class="refDate">October 2008</time>, <span>&lt;<a href="http://portal.acm.org/citation.cfm?id=1455770.1455782">http://portal.acm.org/citation.cfm?id=1455770.1455782</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC9114">[HTTP]</dt>
+        <dd>
+<span class="refAuthor">Bishop, M., Ed.</span>, <span class="refTitle">"HTTP/3"</span>, <span class="seriesInfo">RFC 9114</span>, <span class="seriesInfo">DOI 10.17487/RFC9114</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9114">https://www.rfc-editor.org/rfc/rfc9114</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HttpFieldNameRegistry">[HttpFieldNameRegistry]</dt>
+        <dd>
+<span class="refTitle">"Hypertext Transfer Protocol (HTTP) Field Name Registry"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/http-fields/">https://www.iana.org/assignments/http-fields/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2109">[RFC2109]</dt>
         <dd>
 <span class="refAuthor">Kristol, D.</span> and <span class="refAuthor">L. Montulli</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 2109</span>, <span class="seriesInfo">DOI 10.17487/RFC2109</span>, <time datetime="1997-02" class="refDate">February 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2109">https://www.rfc-editor.org/rfc/rfc2109</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC2818">[RFC2818]</dt>
-        <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"HTTP Over TLS"</span>, <span class="seriesInfo">RFC 2818</span>, <span class="seriesInfo">DOI 10.17487/RFC2818</span>, <time datetime="2000-05" class="refDate">May 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2818">https://www.rfc-editor.org/rfc/rfc2818</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC3864">[RFC3864]</dt>
-        <dd>
-<span class="refAuthor">Klyne, G.</span>, <span class="refAuthor">Nottingham, M.</span>, and <span class="refAuthor">J. Mogul</span>, <span class="refTitle">"Registration Procedures for Message Header Fields"</span>, <span class="seriesInfo">BCP 90</span>, <span class="seriesInfo">RFC 3864</span>, <span class="seriesInfo">DOI 10.17487/RFC3864</span>, <time datetime="2004-09" class="refDate">September 2004</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3864">https://www.rfc-editor.org/rfc/rfc3864</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC4648">[RFC4648]</dt>
         <dd>
 <span class="refAuthor">Josefsson, S.</span>, <span class="refTitle">"The Base16, Base32, and Base64 Data Encodings"</span>, <span class="seriesInfo">RFC 4648</span>, <span class="seriesInfo">DOI 10.17487/RFC4648</span>, <time datetime="2006-10" class="refDate">October 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4648">https://www.rfc-editor.org/rfc/rfc4648</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC5895">[RFC5895]</dt>
-        <dd>
-<span class="refAuthor">Resnick, P.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Mapping Characters for Internationalized Domain Names in Applications (IDNA) 2008"</span>, <span class="seriesInfo">RFC 5895</span>, <span class="seriesInfo">DOI 10.17487/RFC5895</span>, <time datetime="2010-09" class="refDate">September 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5895">https://www.rfc-editor.org/rfc/rfc5895</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6265">[RFC6265]</dt>
         <dd>
 <span class="refAuthor">Barth, A.</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 6265</span>, <span class="seriesInfo">DOI 10.17487/RFC6265</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6265">https://www.rfc-editor.org/rfc/rfc6265</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7034">[RFC7034]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Ross, D.</span> and <span class="refAuthor">T. Gondrom</span>, <span class="refTitle">"HTTP Header Field X-Frame-Options"</span>, <span class="seriesInfo">RFC 7034</span>, <span class="seriesInfo">DOI 10.17487/RFC7034</span>, <time datetime="2013-10" class="refDate">October 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7034">https://www.rfc-editor.org/rfc/rfc7034</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9110">[RFC9110]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9113">[RFC9113]</dt>
+        <dd>
+<span class="refAuthor">Thomson, M., Ed.</span> and <span class="refAuthor">C. Benfield, Ed.</span>, <span class="refTitle">"HTTP/2"</span>, <span class="seriesInfo">RFC 9113</span>, <span class="seriesInfo">DOI 10.17487/RFC9113</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9113">https://www.rfc-editor.org/rfc/rfc9113</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8446">[TLS13]</dt>
+      <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
