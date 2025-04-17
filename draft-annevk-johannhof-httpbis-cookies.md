@@ -98,6 +98,8 @@ informative:
   RFC6265:
   RFC7034:
   RFC9110:
+  RFC9113:
+  RFC9114:
     display: HTTP
   CSRF:
     target: http://portal.acm.org/citation.cfm?id=1455770.1455782
@@ -643,7 +645,7 @@ Set-Cookie: __Host-SID=12345; Secure; Path=/
 
 ## Cookie {#sane-cookie}
 
-### Syntax
+### Syntax {#server-syntax}
 
 The user agent sends stored cookies to the origin server in the `Cookie` header field.
 If the server conforms to the requirements in {{sane-set-cookie}} (and the user agent
@@ -654,6 +656,21 @@ header field that conforms to the following grammar:
 cookie        = cookie-string
 cookie-string = cookie-pair *( ";" SP cookie-pair )
 ~~~
+
+While {{Section 5.4 of RFC9110}} does not define a length limit for header
+fields it is likely that the web server's implementation does impose a limit;
+many popular implementations have default limits of 8K. Server SHOULD avoid
+setting a large number of large cookies such that the final cookie-string
+would exceed their header field limit. Not doing so could result in requests
+to the server failing.
+
+Servers MUST be tolerant of multiple cookie headers. For example, an HTTP/2
+{{RFC9113}} or HTTP/3 {{RFC9114}} connection might split a cookie header to
+improve compression. Servers are free to determine what form this tolerance
+takes. For example, the server could process each cookie header individually
+or the server could concatenate all the cookie headers into one and then
+process that final, single, header. The server should be mindful of any
+header field limits when deciding which approach to take.
 
 ### Semantics
 
@@ -1341,6 +1358,11 @@ user agent MUST compute its value as follows:
 
 1. Return the result of running Serialize Cookies given _cookies_.
 
+Note: Previous versions of this specification required that only one Cookie
+header field be sent in requests. This is no longer a requirement. While this
+specification requires that a single cookie-string be produced, some user agents
+may split that string across multiple cookie header fields. For examples, see
+{{Section 8.2.3 of RFC9113}} and {{Section 4.2.1 of RFC9114}}.
 
 ## Requirements Specific to Browser User Agents
 
