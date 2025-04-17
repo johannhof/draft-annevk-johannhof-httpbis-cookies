@@ -274,7 +274,7 @@ CHAR (any ASCII byte), VCHAR (any visible ASCII byte),
 and WSP (whitespace).
 
 The OWS (optional whitespace) and BWS (bad whitespace) rules are defined in
-Section 5.6.3 of {{RFC9110}}.
+{{Section 5.6.3 of RFC9110}}.
 
 
 # Which Requirements to Implement {#implementation-advisory}
@@ -361,7 +361,7 @@ caches from storing and reusing a response.
 
 Origin servers SHOULD NOT fold multiple `Set-Cookie` header fields into a single
 header field. The usual mechanism for folding HTTP headers fields (i.e., as
-defined in Section 5.3 of {{RFC9110}}) might change the semantics of the `Set-Cookie` header
+defined in {{Section 5.3 of RFC9110}}) might change the semantics of the `Set-Cookie` header
 field because 0x2C (,) is used by `Set-Cookie` in a way that
 conflicts with such folding.
 
@@ -1392,8 +1392,9 @@ This provides the flexibility browsers need to detail their requirements in cons
 ## Limits
 
 Servers SHOULD use as few and as small cookies as possible to avoid reaching
-these implementation limits and to minimize network bandwidth due to the
-`Cookie` header field being included in every request.
+these implementation limits, minimize network bandwidth due to the
+ Cookie header field being included in every request, and to avoid reaching
+ server header field limits (See {{server-syntax}}).
 
 Servers SHOULD gracefully degrade if the user agent fails to return one or more
 cookies in the `Cookie` header field because the user agent might evict any cookie
