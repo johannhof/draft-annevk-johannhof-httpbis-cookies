@@ -20,7 +20,7 @@ header fields are widely used on the Internet. This document obsoletes RFC
 <meta content="draft-annevk-johannhof-httpbis-cookies-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.28.1
-    Python 3.12.9
+    Python 3.12.10
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Cookies</td>
-<td class="right">April 2025</td>
+<td class="right">May 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">van Kesteren &amp; Hofmann</td>
-<td class="center">Expires 19 October 2025</td>
+<td class="center">Expires 9 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc[6265]" class="eref">[6265]</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-04-17" class="published">17 April 2025</time>
+<time datetime="2025-05-08" class="published">8 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-10-19">19 October 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-09">9 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1137,7 +1137,7 @@ header fields are widely used on the Internet. This document obsoletes RFC
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1296,10 +1296,13 @@ header fields are widely used on the Internet. This document obsoletes RFC
                     <p id="section-toc.1-1.5.2.4.2.3.1"><a href="#section-5.4.3" class="auto internal xref">5.4.3</a>.  <a href="#name-store-a-cookie" class="internal xref">Store a Cookie</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.4">
-                    <p id="section-toc.1-1.5.2.4.2.4.1"><a href="#section-5.4.4" class="auto internal xref">5.4.4</a>.  <a href="#name-retrieve-cookies" class="internal xref">Retrieve Cookies</a></p>
+                    <p id="section-toc.1-1.5.2.4.2.4.1"><a href="#section-5.4.4" class="auto internal xref">5.4.4</a>.  <a href="#name-garbage-collect-cookies" class="internal xref">Garbage Collect Cookies</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.5">
-                    <p id="section-toc.1-1.5.2.4.2.5.1"><a href="#section-5.4.5" class="auto internal xref">5.4.5</a>.  <a href="#name-serialize-cookies" class="internal xref">Serialize Cookies</a></p>
+                    <p id="section-toc.1-1.5.2.4.2.5.1"><a href="#section-5.4.5" class="auto internal xref">5.4.5</a>.  <a href="#name-retrieve-cookies" class="internal xref">Retrieve Cookies</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.6">
+                    <p id="section-toc.1-1.5.2.4.2.6.1"><a href="#section-5.4.6" class="auto internal xref">5.4.6</a>.  <a href="#name-serialize-cookies" class="internal xref">Serialize Cookies</a></p>
 </li>
                 </ul>
 </li>
@@ -2139,28 +2142,63 @@ agent MUST remove from the cookie store all cookies whose expiry-time is null.<a
 <p id="section-5.2.1-1">To <strong>Remove Excess Cookies for a Host</strong> given a host <em>host</em>:<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.2.1-2">
 <li id="section-5.2.1-2.1">
-              <p id="section-5.2.1-2.1.1">Let <em>insecureCookies</em> be all cookies in the user agent's cookie store whose host is host-equal to <em>host</em> and whose secure is false.<a href="#section-5.2.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.1-2.1.1">Let <em>insecureCookies</em> be a list of references to all cookies in the user agent's cookie store whose host is host-equal
+to <em>host</em> and whose secure is false.<a href="#section-5.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.2.1-2.2">
               <p id="section-5.2.1-2.2.1">Sort <em>insecureCookies</em> by earliest last-access-time first.<a href="#section-5.2.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.2.1-2.3">
-              <p id="section-5.2.1-2.3.1">Let <em>secureCookies</em> be all cookies in the user agent's cookie store whose host is host-equal to <em>host</em> and whose secure is true.<a href="#section-5.2.1-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.1-2.3.1">Let <em>secureCookies</em> be a list of references to all cookies in the user agent's cookie store whose host is host-equal
+to <em>host</em> and whose secure is true.<a href="#section-5.2.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.2.1-2.4">
               <p id="section-5.2.1-2.4.1">Sort <em>secureCookies</em> by earliest last-access-time first.<a href="#section-5.2.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.2.1-2.5">
-              <p id="section-5.2.1-2.5.1">While <em>insecureCookies</em>'s size + <em>secureCookies</em>'s size is greater than the user agent's total cookies-per-host limit:<a href="#section-5.2.1-2.5.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.2.1-2.5.2">
-<li id="section-5.2.1-2.5.2.1">
-                  <p id="section-5.2.1-2.5.2.1.1">If <em>insecureCookies</em> is not empty, remove the first item of <em>insecureCookies</em> and
- delete the corresponding cookie from the user agent's cookie store.<a href="#section-5.2.1-2.5.2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.1-2.5.1">Let <em>excessHostCookies</em> be an empty list of cookies.<a href="#section-5.2.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
-                <li id="section-5.2.1-2.5.2.2">
-                  <p id="section-5.2.1-2.5.2.2.1">Otherwise, remove the first item of <em>secureCookies</em> and delete the corresponding cookie from the user agent's cookie store.<a href="#section-5.2.1-2.5.2.2.1" class="pilcrow">¶</a></p>
+            <li id="section-5.2.1-2.6">
+              <p id="section-5.2.1-2.6.1">While <em>insecureCookies</em>'s size + <em>secureCookies</em>'s size is greater than the user agent's total cookies-per-host limit:<a href="#section-5.2.1-2.6.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.2.1-2.6.2">
+<li id="section-5.2.1-2.6.2.1">
+                  <p id="section-5.2.1-2.6.2.1.1">If <em>insecureCookies</em> is not empty:<a href="#section-5.2.1-2.6.2.1.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.2.1-2.6.2.1.2">
+<li id="section-5.2.1-2.6.2.1.2.1">
+                      <p id="section-5.2.1-2.6.2.1.2.1.1">Let <em>cookie</em> be the first item of <em>insecureCookies</em>.<a href="#section-5.2.1-2.6.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-5.2.1-2.6.2.1.2.2">
+                      <p id="section-5.2.1-2.6.2.1.2.2.1">Remove <em>cookie</em> from <em>insecureCookies</em>.<a href="#section-5.2.1-2.6.2.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-5.2.1-2.6.2.1.2.3">
+                      <p id="section-5.2.1-2.6.2.1.2.3.1">Remove <em>cookie</em> from the user agent's cookie store.<a href="#section-5.2.1-2.6.2.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-5.2.1-2.6.2.1.2.4">
+                      <p id="section-5.2.1-2.6.2.1.2.4.1">Append <em>cookie</em> to <em>excessHostCookies</em>.<a href="#section-5.2.1-2.6.2.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+                  </ol>
+</li>
+                <li id="section-5.2.1-2.6.2.2">
+                  <p id="section-5.2.1-2.6.2.2.1">Otherwise:<a href="#section-5.2.1-2.6.2.2.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.2.1-2.6.2.2.2">
+<li id="section-5.2.1-2.6.2.2.2.1">
+                      <p id="section-5.2.1-2.6.2.2.2.1.1">Let <em>cookie</em> be the first item of <em>secureCookies</em>.<a href="#section-5.2.1-2.6.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-5.2.1-2.6.2.2.2.2">
+                      <p id="section-5.2.1-2.6.2.2.2.2.1">Remove <em>cookie</em> from <em>secureCookies</em>.<a href="#section-5.2.1-2.6.2.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-5.2.1-2.6.2.2.2.3">
+                      <p id="section-5.2.1-2.6.2.2.2.3.1">Remove <em>cookie</em> from the user agent's cookie store.<a href="#section-5.2.1-2.6.2.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                    <li id="section-5.2.1-2.6.2.2.2.4">
+                      <p id="section-5.2.1-2.6.2.2.2.4.1">Append <em>cookie</em> to <em>excessHostCookies</em>.<a href="#section-5.2.1-2.6.2.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+                  </ol>
 </li>
               </ol>
+</li>
+            <li id="section-5.2.1-2.7">
+              <p id="section-5.2.1-2.7.1">Return <em>excessHostCookies</em>.<a href="#section-5.2.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -2176,12 +2214,27 @@ agent MUST remove from the cookie store all cookies whose expiry-time is null.<a
               <p id="section-5.2.2-2.1.1">Let <em>allCookies</em> be the result of sorting the user agent's cookie store by earliest last-access-time first.<a href="#section-5.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.2.2-2.2">
-              <p id="section-5.2.2-2.2.1">While <em>allCookies</em>'s size is greater than the user agent's total cookies limit:<a href="#section-5.2.2-2.2.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.2.2-2.2.2">
-<li id="section-5.2.2-2.2.2.1">
-                  <p id="section-5.2.2-2.2.2.1.1">Remove the first item of <em>allCookies</em> and delete the corresponding cookie from the user agent's cookie store.<a href="#section-5.2.2-2.2.2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-2.2.1">Let <em>excessGlobalCookies</em> be an empty list of cookies.<a href="#section-5.2.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-5.2.2-2.3">
+              <p id="section-5.2.2-2.3.1">While <em>allCookies</em>'s size is greater than the user agent's total cookies limit:<a href="#section-5.2.2-2.3.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.2.2-2.3.2">
+<li id="section-5.2.2-2.3.2.1">
+                  <p id="section-5.2.2-2.3.2.1.1">Let <em>cookie</em> be the first item of <em>allCookies</em>.<a href="#section-5.2.2-2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li id="section-5.2.2-2.3.2.2">
+                  <p id="section-5.2.2-2.3.2.2.1">Remove <em>cookie</em> from <em>allCookies</em>.<a href="#section-5.2.2-2.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li id="section-5.2.2-2.3.2.3">
+                  <p id="section-5.2.2-2.3.2.3.1">Remove <em>cookie</em> from the user agent's cookie store.<a href="#section-5.2.2-2.3.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                <li id="section-5.2.2-2.3.2.4">
+                  <p id="section-5.2.2-2.3.2.4.1">Append <em>cookie</em> to <em>excessGlobalCookies</em>.<a href="#section-5.2.2-2.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
               </ol>
+</li>
+            <li id="section-5.2.2-2.4">
+              <p id="section-5.2.2-2.4.1">Return <em>excessGlobalCookies</em>.<a href="#section-5.2.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -2410,7 +2463,7 @@ URL path <em>path</em>, boolean <em>httpOnlyAllowed</em>, boolean <em>allowNonHo
               <p id="section-5.4.1-2.2.1">If <em>cookie</em> is failure, then return.<a href="#section-5.4.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.1-2.3">
-              <p id="section-5.4.1-2.3.1">Run Store a Cookie given <em>cookie</em>, <em>isSecure</em>, <em>host</em>, <em>path</em>, <em>httpOnlyAllowed</em>,
+              <p id="section-5.4.1-2.3.1">Return the result of Store a Cookie given <em>cookie</em>, <em>isSecure</em>, <em>host</em>, <em>path</em>, <em>httpOnlyAllowed</em>,
 <em>allowNonHostOnlyCookieForPublicSuffix</em>, and <em>sameSiteStrictOrLaxAllowed</em>.<a href="#section-5.4.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
@@ -2669,7 +2722,7 @@ boolean <em>httpOnlyAllowed</em>, boolean <em>allowNonHostOnlyCookieForPublicSuf
 0x7F (CTL characters excluding HTAB).<a href="#section-5.4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-2.3">
-              <p id="section-5.4.3-2.3.1">If <em>cookie</em>'s host is failure, then return.<a href="#section-5.4.3-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.3-2.3.1">If <em>cookie</em>'s host is failure, then return null.<a href="#section-5.4.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-2.4">
               <p id="section-5.4.3-2.4.1">Set <em>cookie</em>'s creation-time and last-access-time to the current date and time.<a href="#section-5.4.3-2.4.1" class="pilcrow">¶</a></p>
@@ -2681,7 +2734,7 @@ boolean <em>httpOnlyAllowed</em>, boolean <em>allowNonHostOnlyCookieForPublicSuf
                   <p id="section-5.4.3-2.5.2.1.1">If <em>cookie</em>'s host is host-equal to <em>host</em>, then set <em>cookie</em>'s host to null.<a href="#section-5.4.3-2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li id="section-5.4.3-2.5.2.2">
-                  <p id="section-5.4.3-2.5.2.2.1">Otherwise, return.<a href="#section-5.4.3-2.5.2.2.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.4.3-2.5.2.2.1">Otherwise, return null.<a href="#section-5.4.3-2.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
               </ol>
 <p id="section-5.4.3-2.5.3">
@@ -2741,7 +2794,7 @@ Note: This step prevents <code>attacker.example</code> from disrupting the integ
 </li>
                   </ol>
 <p id="section-5.4.3-2.10.2.2.3">
-then return.<a href="#section-5.4.3-2.10.2.2.3" class="pilcrow">¶</a></p>
+then return null.<a href="#section-5.4.3-2.10.2.2.3" class="pilcrow">¶</a></p>
 <p id="section-5.4.3-2.10.2.2.4">
 Note: The path comparison is not symmetric, ensuring only that a newly-created, non-secure
 cookie does not overlay an existing secure cookie, providing some mitigation against
@@ -2753,15 +2806,15 @@ a path of '/login' or '/login/en'.<a href="#section-5.4.3-2.10.2.2.4" class="pil
 </li>
             <li id="section-5.4.3-2.11">
               <p id="section-5.4.3-2.11.1">If <em>cookie</em>'s same-site is not "<code>none</code>" and <em>sameSiteStrictOrLaxAllowed</em> is false,
-then return.<a href="#section-5.4.3-2.11.1" class="pilcrow">¶</a></p>
+then return null.<a href="#section-5.4.3-2.11.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-2.12">
               <p id="section-5.4.3-2.12.1">If <em>cookie</em>'s same-site is "<code>none</code>" and <em>cookie</em>'s secure-only is false,
-then return.<a href="#section-5.4.3-2.12.1" class="pilcrow">¶</a></p>
+then return null.<a href="#section-5.4.3-2.12.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-2.13">
               <p id="section-5.4.3-2.13.1">If <em>cookie</em>'s name, byte-lowercased, starts with <code>__secure-</code> and <em>cookie</em>'s secure-only is false,
-then return.<a href="#section-5.4.3-2.13.1" class="pilcrow">¶</a></p>
+then return null.<a href="#section-5.4.3-2.13.1" class="pilcrow">¶</a></p>
 <p id="section-5.4.3-2.13.2">
 Note: The check here and those below are with a byte-lowercased value in order to protect servers that process these values in a case-insensitive manner.<a href="#section-5.4.3-2.13.2" class="pilcrow">¶</a></p>
 </li>
@@ -2779,7 +2832,7 @@ Note: The check here and those below are with a byte-lowercased value in order t
 </li>
               </ol>
 <p id="section-5.4.3-2.14.3">
-then return.<a href="#section-5.4.3-2.14.3" class="pilcrow">¶</a></p>
+then return null.<a href="#section-5.4.3-2.14.3" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-2.15">
               <p id="section-5.4.3-2.15.1">If <em>cookie</em>'s name is the empty byte sequence and one of the following is true:<a href="#section-5.4.3-2.15.1" class="pilcrow">¶</a></p>
@@ -2792,7 +2845,7 @@ then return.<a href="#section-5.4.3-2.14.3" class="pilcrow">¶</a></p>
 </li>
               </ul>
 <p id="section-5.4.3-2.15.3">
-then return.<a href="#section-5.4.3-2.15.3" class="pilcrow">¶</a></p>
+then return null.<a href="#section-5.4.3-2.15.3" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-2.16">
               <p id="section-5.4.3-2.16.1">If the user agent's cookie store contains a cookie <em>oldCookie</em> whose name is <em>cookie</em>'s name,
@@ -2800,13 +2853,17 @@ host is host-equal to <em>cookie</em>'s host, host-only is <em>cookie</em>'s hos
 <ol start="1" type="1" class="normal type-1" id="section-5.4.3-2.16.2">
 <li id="section-5.4.3-2.16.2.1">
                   <p id="section-5.4.3-2.16.2.1.1">If <em>httpOnlyAllowed</em> is false and <em>oldCookie</em>'s http-only is true,
-then return.<a href="#section-5.4.3-2.16.2.1.1" class="pilcrow">¶</a></p>
+then return null.<a href="#section-5.4.3-2.16.2.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li id="section-5.4.3-2.16.2.2">
-                  <p id="section-5.4.3-2.16.2.2.1">Set <em>cookie</em>'s creation-time to <em>oldCookie</em>'s creation-time.<a href="#section-5.4.3-2.16.2.2.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.4.3-2.16.2.2.1">If <em>cookie</em>'s secure flag is equal to <em>oldCookie</em>'s secure flag, <em>cookie</em>'s same-site is equal to <em>oldCookie</em>'s
+same-site, and <em>cookie</em>'s expiry-time is equal to <em>oldCookie</em>'s expiry-time, then return null.<a href="#section-5.4.3-2.16.2.2.1" class="pilcrow">¶</a></p>
 </li>
                 <li id="section-5.4.3-2.16.2.3">
-                  <p id="section-5.4.3-2.16.2.3.1">Remove <em>oldCookie</em> from the user agent's cookie store.<a href="#section-5.4.3-2.16.2.3.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.4.3-2.16.2.3.1">Set <em>cookie</em>'s creation-time to <em>oldCookie</em>'s creation-time.<a href="#section-5.4.3-2.16.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                <li id="section-5.4.3-2.16.2.4">
+                  <p id="section-5.4.3-2.16.2.4.1">Remove <em>oldCookie</em> from the user agent's cookie store.<a href="#section-5.4.3-2.16.2.4.1" class="pilcrow">¶</a></p>
 </li>
               </ol>
 <p id="section-5.4.3-2.16.3">
@@ -2816,144 +2873,179 @@ Note: This algorithm maintains the invariant that there is at most one such cook
               <p id="section-5.4.3-2.17.1">Insert <em>cookie</em> into the user agent's cookie store.<a href="#section-5.4.3-2.17.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-2.18">
-              <p id="section-5.4.3-2.18.1">Remove all expired cookies from the user agent's cookie store.<a href="#section-5.4.3-2.18.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.3-2.18.1">Return <em>cookie</em>.<a href="#section-5.4.3-2.18.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.4.3-2.19">
-              <p id="section-5.4.3-2.19.1">Run Remove Excess Cookies for Host given <em>cookie</em>'s host.<a href="#section-5.4.3-2.19.1" class="pilcrow">¶</a></p>
+          </ol>
+</section>
+</div>
+<div id="garbage-collect-cookies">
+<section id="section-5.4.4">
+          <h4 id="name-garbage-collect-cookies">
+<a href="#section-5.4.4" class="section-number selfRef">5.4.4. </a><a href="#name-garbage-collect-cookies" class="section-name selfRef">Garbage Collect Cookies</a>
+          </h4>
+<p id="section-5.4.4-1">To <strong>Garbage Collect Cookies</strong> given a host <em>host</em>:<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.4-2">
+<li id="section-5.4.4-2.1">
+              <p id="section-5.4.4-2.1.1">Let <em>expiredCookies</em> be a list of references to all expired cookies in the user agent's cookie store.<a href="#section-5.4.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.4.3-2.20">
-              <p id="section-5.4.3-2.20.1">Run Remove Global Excess Cookies.<a href="#section-5.4.3-2.20.1" class="pilcrow">¶</a></p>
+            <li id="section-5.4.4-2.2">
+              <p id="section-5.4.4-2.2.1">For each <em>cookie</em> of <em>expiredCookies</em>:<a href="#section-5.4.4-2.2.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.4-2.2.2">
+<li id="section-5.4.4-2.2.2.1">
+                  <p id="section-5.4.4-2.2.2.1.1">Remove <em>cookie</em> from the user agent's cookie store.<a href="#section-5.4.4-2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              </ol>
+</li>
+            <li id="section-5.4.4-2.3">
+              <p id="section-5.4.4-2.3.1">Let <em>excessHostCookies</em> be the result of running Remove Excess Cookies for Host given <em>host</em>.<a href="#section-5.4.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-5.4.4-2.4">
+              <p id="section-5.4.4-2.4.1">Let <em>excessGlobalCookies</em> be the result of running Remove Global Excess Cookies.<a href="#section-5.4.4-2.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-5.4.4-2.5">
+              <p id="section-5.4.4-2.5.1">Let <em>removedCookies</em> be an empty list.<a href="#section-5.4.4-2.5.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-5.4.4-2.6">
+              <p id="section-5.4.4-2.6.1">For each <em>cookieList</em> of « <em>expiredCookies</em>, <em>excessHostCookies</em>, <em>excessGlobalCookies</em> », do the following:<a href="#section-5.4.4-2.6.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.4-2.6.2">
+<li id="section-5.4.4-2.6.2.1">
+                  <p id="section-5.4.4-2.6.2.1.1">Extend <em>removedCookies</em> with <em>cookieList</em>.<a href="#section-5.4.4-2.6.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              </ol>
+</li>
+            <li id="section-5.4.4-2.7">
+              <p id="section-5.4.4-2.7.1">Return <em>removedCookies</em><a href="#section-5.4.4-2.7.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
 </div>
 <div id="retrieve-cookies">
-<section id="section-5.4.4">
+<section id="section-5.4.5">
           <h4 id="name-retrieve-cookies">
-<a href="#section-5.4.4" class="section-number selfRef">5.4.4. </a><a href="#name-retrieve-cookies" class="section-name selfRef">Retrieve Cookies</a>
+<a href="#section-5.4.5" class="section-number selfRef">5.4.5. </a><a href="#name-retrieve-cookies" class="section-name selfRef">Retrieve Cookies</a>
           </h4>
-<p id="section-5.4.4-1">To <strong>Retrieve Cookies</strong> given a boolean <em>isSecure</em>, host <em>host</em>, URL path <em>path</em>,
-boolean <em>httpOnlyAllowed</em>, and string <em>sameSite</em>:<a href="#section-5.4.4-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.4.4-2">
-<li id="section-5.4.4-2.1">
-              <p id="section-5.4.4-2.1.1">Assert: <em>sameSite</em> is "<code>strict-or-less</code>", "<code>lax-or-less</code>", "<code>unset-or-less</code>", or "<code>none</code>".<a href="#section-5.4.4-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-5.4.5-1">To <strong>Retrieve Cookies</strong> given a boolean <em>isSecure</em>, host <em>host</em>, URL path <em>path</em>,
+boolean <em>httpOnlyAllowed</em>, and string <em>sameSite</em>:<a href="#section-5.4.5-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.5-2">
+<li id="section-5.4.5-2.1">
+              <p id="section-5.4.5-2.1.1">Assert: <em>sameSite</em> is "<code>strict-or-less</code>", "<code>lax-or-less</code>", "<code>unset-or-less</code>", or "<code>none</code>".<a href="#section-5.4.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.4.4-2.2">
-              <p id="section-5.4.4-2.2.1">Let <em>cookies</em> be all cookies from the user agent's cookie store that meet these conditions:<a href="#section-5.4.4-2.2.1" class="pilcrow">¶</a></p>
+            <li id="section-5.4.5-2.2">
+              <p id="section-5.4.5-2.2.1">Let <em>cookies</em> be all cookies from the user agent's cookie store that meet these conditions:<a href="#section-5.4.5-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.2.2.1">
-                  <p id="section-5.4.4-2.2.2.1.1">One of the following is true:<a href="#section-5.4.4-2.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.2.2.1">
+                  <p id="section-5.4.5-2.2.2.1.1">One of the following is true:<a href="#section-5.4.5-2.2.2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.2.2.1.2.1">
-                      <p id="section-5.4.4-2.2.2.1.2.1.1">cookie's host-only is true and <em>host</em> is host-equal to cookie's host, or<a href="#section-5.4.4-2.2.2.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.2.2.1.2.1">
+                      <p id="section-5.4.5-2.2.2.1.2.1.1">cookie's host-only is true and <em>host</em> is host-equal to cookie's host, or<a href="#section-5.4.5-2.2.2.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-5.4.4-2.2.2.1.2.2">
-                      <p id="section-5.4.4-2.2.2.1.2.2.1">cookie's host-only is false and <em>host</em> Domain-Matches cookie's host.<a href="#section-5.4.4-2.2.2.1.2.2.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-5.4.5-2.2.2.1.2.2">
+                      <p id="section-5.4.5-2.2.2.1.2.2.1">cookie's host-only is false and <em>host</em> Domain-Matches cookie's host.<a href="#section-5.4.5-2.2.2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
-<p id="section-5.4.4-2.2.2.1.3">
+<p id="section-5.4.5-2.2.2.1.3">
 It's possible that the public suffix list changed since a cookie was
 created. If this change results in a cookie's host becoming a public
 suffix and the cookie's host-only is false, then that cookie SHOULD NOT
-be returned.<a href="#section-5.4.4-2.2.2.1.3" class="pilcrow">¶</a></p>
-<p id="section-5.4.4-2.2.2.1.4">
+be returned.<a href="#section-5.4.5-2.2.2.1.3" class="pilcrow">¶</a></p>
+<p id="section-5.4.5-2.2.2.1.4">
 XXX: We should probably move this requirement out-of-bound as this invalidation
-should happen as part of updating the public suffixes.<a href="#section-5.4.4-2.2.2.1.4" class="pilcrow">¶</a></p>
+should happen as part of updating the public suffixes.<a href="#section-5.4.5-2.2.2.1.4" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-5.4.4-2.2.2.2">
-                  <p id="section-5.4.4-2.2.2.2.1"><em>path</em> Path-Matches cookie's path.<a href="#section-5.4.4-2.2.2.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-5.4.5-2.2.2.2">
+                  <p id="section-5.4.5-2.2.2.2.1"><em>path</em> Path-Matches cookie's path.<a href="#section-5.4.5-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-5.4.4-2.2.2.3">
-                  <p id="section-5.4.4-2.2.2.3.1">One of the following is true:<a href="#section-5.4.4-2.2.2.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-5.4.5-2.2.2.3">
+                  <p id="section-5.4.5-2.2.2.3.1">One of the following is true:<a href="#section-5.4.5-2.2.2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.2.2.3.2.1">
-                      <p id="section-5.4.4-2.2.2.3.2.1.1">cookie's secure is true and <em>isSecure</em> is true, or<a href="#section-5.4.4-2.2.2.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.2.2.3.2.1">
+                      <p id="section-5.4.5-2.2.2.3.2.1.1">cookie's secure is true and <em>isSecure</em> is true, or<a href="#section-5.4.5-2.2.2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-5.4.4-2.2.2.3.2.2">
-                      <p id="section-5.4.4-2.2.2.3.2.2.1">cookie's secure is false.<a href="#section-5.4.4-2.2.2.3.2.2.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-5.4.5-2.2.2.3.2.2">
+                      <p id="section-5.4.5-2.2.2.3.2.2.1">cookie's secure is false.<a href="#section-5.4.5-2.2.2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
 </li>
-                <li class="normal" id="section-5.4.4-2.2.2.4">
-                  <p id="section-5.4.4-2.2.2.4.1">One of the following is true:<a href="#section-5.4.4-2.2.2.4.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-5.4.5-2.2.2.4">
+                  <p id="section-5.4.5-2.2.2.4.1">One of the following is true:<a href="#section-5.4.5-2.2.2.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.2.2.4.2.1">
-                      <p id="section-5.4.4-2.2.2.4.2.1.1">cookie's http-only is true and <em>httpOnlyAllowed</em> is true, or<a href="#section-5.4.4-2.2.2.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.2.2.4.2.1">
+                      <p id="section-5.4.5-2.2.2.4.2.1.1">cookie's http-only is true and <em>httpOnlyAllowed</em> is true, or<a href="#section-5.4.5-2.2.2.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-5.4.4-2.2.2.4.2.2">
-                      <p id="section-5.4.4-2.2.2.4.2.2.1">cookie's http-only is false.<a href="#section-5.4.4-2.2.2.4.2.2.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-5.4.5-2.2.2.4.2.2">
+                      <p id="section-5.4.5-2.2.2.4.2.2.1">cookie's http-only is false.<a href="#section-5.4.5-2.2.2.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
 </li>
-                <li class="normal" id="section-5.4.4-2.2.2.5">
-                  <p id="section-5.4.4-2.2.2.5.1">One of the following is true:<a href="#section-5.4.4-2.2.2.5.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-5.4.5-2.2.2.5">
+                  <p id="section-5.4.5-2.2.2.5.1">One of the following is true:<a href="#section-5.4.5-2.2.2.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.2.2.5.2.1">
-                      <p id="section-5.4.4-2.2.2.5.2.1.1">cookie's same-site is "<code>strict</code>" and <em>sameSite</em> is "<code>strict-or-less</code>";<a href="#section-5.4.4-2.2.2.5.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.2.2.5.2.1">
+                      <p id="section-5.4.5-2.2.2.5.2.1.1">cookie's same-site is "<code>strict</code>" and <em>sameSite</em> is "<code>strict-or-less</code>";<a href="#section-5.4.5-2.2.2.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-5.4.4-2.2.2.5.2.2">
-                      <p id="section-5.4.4-2.2.2.5.2.2.1">cookie's same-site is "<code>lax</code>" and <em>sameSite</em> is one of "<code>strict-or-less</code>" or "<code>lax-or-less</code>";<a href="#section-5.4.4-2.2.2.5.2.2.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-5.4.5-2.2.2.5.2.2">
+                      <p id="section-5.4.5-2.2.2.5.2.2.1">cookie's same-site is "<code>lax</code>" and <em>sameSite</em> is one of "<code>strict-or-less</code>" or "<code>lax-or-less</code>";<a href="#section-5.4.5-2.2.2.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-5.4.4-2.2.2.5.2.3">
-                      <p id="section-5.4.4-2.2.2.5.2.3.1">cookie's same-site is "<code>unset</code>" and <em>sameSite</em> is one of "<code>strict-or-less</code>", "<code>lax-or-less</code>", or "<code>unset-or-less</code>"; or<a href="#section-5.4.4-2.2.2.5.2.3.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-5.4.5-2.2.2.5.2.3">
+                      <p id="section-5.4.5-2.2.2.5.2.3.1">cookie's same-site is "<code>unset</code>" and <em>sameSite</em> is one of "<code>strict-or-less</code>", "<code>lax-or-less</code>", or "<code>unset-or-less</code>"; or<a href="#section-5.4.5-2.2.2.5.2.3.1" class="pilcrow">¶</a></p>
 </li>
-                    <li class="normal" id="section-5.4.4-2.2.2.5.2.4">
-                      <p id="section-5.4.4-2.2.2.5.2.4.1">cookie's same-site is "<code>none</code>".<a href="#section-5.4.4-2.2.2.5.2.4.1" class="pilcrow">¶</a></p>
+                    <li class="normal" id="section-5.4.5-2.2.2.5.2.4">
+                      <p id="section-5.4.5-2.2.2.5.2.4.1">cookie's same-site is "<code>none</code>".<a href="#section-5.4.5-2.2.2.5.2.4.1" class="pilcrow">¶</a></p>
 </li>
                   </ul>
 </li>
               </ul>
 </li>
-            <li id="section-5.4.4-2.3">
-              <p id="section-5.4.4-2.3.1">Sort <em>cookies</em> in the following order:<a href="#section-5.4.4-2.3.1" class="pilcrow">¶</a></p>
+            <li id="section-5.4.5-2.3">
+              <p id="section-5.4.5-2.3.1">Sort <em>cookies</em> in the following order:<a href="#section-5.4.5-2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.4.4-2.3.2.1">
-                  <p id="section-5.4.4-2.3.2.1.1">Cookies whose path's size is greater are listed before cookies whose path's size
-is smaller.<a href="#section-5.4.4-2.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.4.5-2.3.2.1">
+                  <p id="section-5.4.5-2.3.2.1.1">Cookies whose path's size is greater are listed before cookies whose path's size
+is smaller.<a href="#section-5.4.5-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-5.4.4-2.3.2.2">
-                  <p id="section-5.4.4-2.3.2.2.1">Among cookies whose path's size is equal, cookies whose creation-time is earlier
-are listed before cookies whose creation-time is later.<a href="#section-5.4.4-2.3.2.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-5.4.5-2.3.2.2">
+                  <p id="section-5.4.5-2.3.2.2.1">Among cookies whose path's size is equal, cookies whose creation-time is earlier
+are listed before cookies whose creation-time is later.<a href="#section-5.4.5-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </li>
-            <li id="section-5.4.4-2.4">
-              <p id="section-5.4.4-2.4.1">Set the last-access-time of each cookie of <em>cookies</em> to the current date and time
-and reflect these changes in the user agent's cookie store.<a href="#section-5.4.4-2.4.1" class="pilcrow">¶</a></p>
+            <li id="section-5.4.5-2.4">
+              <p id="section-5.4.5-2.4.1">Set the last-access-time of each cookie of <em>cookies</em> to the current date and time
+and reflect these changes in the user agent's cookie store.<a href="#section-5.4.5-2.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.4.4-2.5">
-              <p id="section-5.4.4-2.5.1">Return <em>cookies</em>.<a href="#section-5.4.4-2.5.1" class="pilcrow">¶</a></p>
+            <li id="section-5.4.5-2.5">
+              <p id="section-5.4.5-2.5.1">Return <em>cookies</em>.<a href="#section-5.4.5-2.5.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
 </div>
 <div id="serialize-cookies">
-<section id="section-5.4.5">
+<section id="section-5.4.6">
           <h4 id="name-serialize-cookies">
-<a href="#section-5.4.5" class="section-number selfRef">5.4.5. </a><a href="#name-serialize-cookies" class="section-name selfRef">Serialize Cookies</a>
+<a href="#section-5.4.6" class="section-number selfRef">5.4.6. </a><a href="#name-serialize-cookies" class="section-name selfRef">Serialize Cookies</a>
           </h4>
-<p id="section-5.4.5-1">To <strong>Serialize Cookies</strong> given a list of cookies <em>cookies</em>:<a href="#section-5.4.5-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.4.5-2">
-<li id="section-5.4.5-2.1">
-              <p id="section-5.4.5-2.1.1">Let <em>output</em> be an empty byte sequence.<a href="#section-5.4.5-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-5.4.6-1">To <strong>Serialize Cookies</strong> given a list of cookies <em>cookies</em>:<a href="#section-5.4.6-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.6-2">
+<li id="section-5.4.6-2.1">
+              <p id="section-5.4.6-2.1.1">Let <em>output</em> be an empty byte sequence.<a href="#section-5.4.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.4.5-2.2">
-              <p id="section-5.4.5-2.2.1">For each <em>cookie</em> of <em>cookies</em>:<a href="#section-5.4.5-2.2.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.4.5-2.2.2">
-<li id="section-5.4.5-2.2.2.1">
-                  <p id="section-5.4.5-2.2.2.1.1">If <em>output</em> is not the empty byte sequence, then append 0x3B (;) followed by 0x20 (SP) to <em>output</em>.<a href="#section-5.4.5-2.2.2.1.1" class="pilcrow">¶</a></p>
+            <li id="section-5.4.6-2.2">
+              <p id="section-5.4.6-2.2.1">For each <em>cookie</em> of <em>cookies</em>:<a href="#section-5.4.6-2.2.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.6-2.2.2">
+<li id="section-5.4.6-2.2.2.1">
+                  <p id="section-5.4.6-2.2.2.1.1">If <em>output</em> is not the empty byte sequence, then append 0x3B (;) followed by 0x20 (SP) to <em>output</em>.<a href="#section-5.4.6-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li id="section-5.4.5-2.2.2.2">
-                  <p id="section-5.4.5-2.2.2.2.1">If <em>cookie</em>'s name is not the empty byte sequence, then append <em>cookie</em>'s name followed by
-0x3D (=) to <em>output</em>.<a href="#section-5.4.5-2.2.2.2.1" class="pilcrow">¶</a></p>
+                <li id="section-5.4.6-2.2.2.2">
+                  <p id="section-5.4.6-2.2.2.2.1">If <em>cookie</em>'s name is not the empty byte sequence, then append <em>cookie</em>'s name followed by
+0x3D (=) to <em>output</em>.<a href="#section-5.4.6-2.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li id="section-5.4.5-2.2.2.3">
-                  <p id="section-5.4.5-2.2.2.3.1">Append <em>cookie</em>'s value to <em>output</em>.<a href="#section-5.4.5-2.2.2.3.1" class="pilcrow">¶</a></p>
+                <li id="section-5.4.6-2.2.2.3">
+                  <p id="section-5.4.6-2.2.2.3.1">Append <em>cookie</em>'s value to <em>output</em>.<a href="#section-5.4.6-2.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
               </ol>
 </li>
-            <li id="section-5.4.5-2.3">
-              <p id="section-5.4.5-2.3.1">Return <em>output</em>.<a href="#section-5.4.5-2.3.1" class="pilcrow">¶</a></p>
+            <li id="section-5.4.6-2.3">
+              <p id="section-5.4.6-2.3.1">Return <em>output</em>.<a href="#section-5.4.6-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -3001,6 +3093,12 @@ SHOULD be processed as follows:<a href="#section-5.5.1-3" class="pilcrow">¶</a>
               <p id="section-5.5.1-4.7.1">Let <em>cookie</em> be the result of running Parse and Store a Cookie given the header field value,
 <em>isSecure</em>, <em>host</em>, <em>path</em>, <em>httpOnlyAllowed</em>, <em>allowNonHostOnlyCookieForPublicSuffix</em>, and
 <em>sameSiteStrictOrLaxAllowed</em>.<a href="#section-5.5.1-4.7.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-5.5.1-4.8">
+              <p id="section-5.5.1-4.8.1">If <em>cookie</em> is null then return.<a href="#section-5.5.1-4.8.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-5.5.1-4.9">
+              <p id="section-5.5.1-4.9.1">Run Garbage Collect Cookies given <em>cookie</em>'s host.<a href="#section-5.5.1-4.9.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -3069,10 +3167,13 @@ manipulating the user agent's cookie store through non-HTTP APIs:<a href="#secti
             <p id="section-5.6-3.2.1">Store a Cookie<a href="#section-5.6-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.6-3.3">
-            <p id="section-5.6-3.3.1">Retrieve Cookies<a href="#section-5.6-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.6-3.3.1">Garbage Collect Cookies<a href="#section-5.6-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.6-3.4">
-            <p id="section-5.6-3.4.1">Serialize Cookies<a href="#section-5.6-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.6-3.4.1">Retrieve Cookies<a href="#section-5.6-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.6-3.5">
+            <p id="section-5.6-3.5.1">Serialize Cookies<a href="#section-5.6-3.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.6-4">This provides the flexibility browsers need to detail their requirements in considerable detail.<a href="#section-5.6-4" class="pilcrow">¶</a></p>
